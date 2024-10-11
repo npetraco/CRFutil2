@@ -1,4 +1,4 @@
-#' @title       Handy feature function for testing
+#' @title       Feature function
 #' @description The function is a handy feature function for testing.
 #'
 #' @param st     State label

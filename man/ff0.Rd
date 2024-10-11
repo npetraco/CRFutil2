@@ -2,7 +2,7 @@
 % Please edit documentation in R/ff0.R
 \name{ff0}
 \alias{ff0}
-\title{Handy feature function for testing}
+\title{Feature function}
 \usage{
 ff0(st, ss.dim = NULL, w.vec = NULL, st.vec = NULL)
 }
