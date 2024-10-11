@@ -1,4 +1,4 @@
-* Re-write of CRFutil, a handy utility package to go along with R package CRF (https://cran.r-project.org/web/packages/CRF/index.html). 
+* Re-write of CRFutil, a handy utility package to go along with R packages CRF (https://cran.r-project.org/web/packages/CRF/index.html) and gRbase (https://cran.r-project.org/web/packages/gRbase/index.html). 
 
 * In CRFutil I chose to use a positive sign in the exponent of the Boltzmann/Gibbs distribution. I've regretted that stupid decision for years. It is now (the conventional) negative.
 
@@ -20,7 +20,7 @@
 	
 	BiocManager::install("RBGL", force = TRUE)
 
-2. Turn on devtools and install CRFutil2 from github. CRFutil2 should automatically install CRF and gRbase:
+2. Turn on remotes and install CRFutil2 from github. CRFutil2 should automatically install CRF and gRbase:
 
 	library(remotes)
 

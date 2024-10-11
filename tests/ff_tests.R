@@ -1,4 +1,5 @@
 library(rbenchmark)
+library(microbenchmark)
 
 ff1_C(st = 2, ss_dim=2, w_vec=c(1,1), st_vec=c(1,2))
 ff2_C(st = 2, ss_dim=2, st_vec=c(1,2))
@@ -10,6 +11,15 @@ benchmark(
   ff0_C(st = 2, ss_dim = 2, st_vec = c(1,2)),
   ff0(st = 2, ss.dim = 2, st.vec=c(1,2))
 )[,1:3]
+
+junk <- microbenchmark(
+  ff1_C(st = 2, ss_dim=2, w_vec=c(1,1), st_vec=c(1,2)),
+  ff2_C(st = 2, ss_dim=2, st_vec=c(1,2)),
+  ff0_C(st = 2, ss_dim = 2, st_vec = c(1,2)),
+  ff0(st = 2, ss.dim = 2, st.vec=c(1,2)),
+  times=100L, unit = "nanosecond")
+summary(junk)[,c(1,3:6)]
+
 
 
 len  <- 1000
