@@ -20,10 +20,13 @@ The feature function, which is a vector.
 The function will download script from the Notes
 }
 \details{
-The function will download script from the Notes. Default url_head is currently: XXXX.
-Default download_location is currently: XXXX.
+The function will download script from the Notes. Default url_head is currently:
+
+https://raw.githubusercontent.com/npetraco/CRFutil2/refs/heads/main/inst/doc/Notes_scripts_bank.
+
+Default download_location is currently: tempdir().
 }
 \examples{
-XX
+get_script("scr1.R")
 
 }
