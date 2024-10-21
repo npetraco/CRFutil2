@@ -40,15 +40,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // ff2_C
-arma::uvec ff2_C(double st, double ss_dim, arma::vec st_vec);
-RcppExport SEXP _CRFutil2_ff2_C(SEXP stSEXP, SEXP ss_dimSEXP, SEXP st_vecSEXP) {
+arma::uvec ff2_C(double st, arma::vec st_vec);
+RcppExport SEXP _CRFutil2_ff2_C(SEXP stSEXP, SEXP st_vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type st(stSEXP);
-    Rcpp::traits::input_parameter< double >::type ss_dim(ss_dimSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type st_vec(st_vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(ff2_C(st, ss_dim, st_vec));
+    rcpp_result_gen = Rcpp::wrap(ff2_C(st, st_vec));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -66,7 +65,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_CRFutil2_ff0_C", (DL_FUNC) &_CRFutil2_ff0_C, 4},
     {"_CRFutil2_ff1_C", (DL_FUNC) &_CRFutil2_ff1_C, 4},
-    {"_CRFutil2_ff2_C", (DL_FUNC) &_CRFutil2_ff2_C, 3},
+    {"_CRFutil2_ff2_C", (DL_FUNC) &_CRFutil2_ff2_C, 2},
     {"_CRFutil2_rcpp_prototypef", (DL_FUNC) &_CRFutil2_rcpp_prototypef, 0},
     {NULL, NULL, 0}
 };

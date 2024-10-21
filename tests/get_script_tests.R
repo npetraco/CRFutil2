@@ -1,3 +1,8 @@
 library(CRFutil2)
 
 get_script("scr1.R")
+get_script("scr2.R")
+get_script("scr3.R")
+get_script("scr4.R")
+get_script("scr5.R")
+get_script("scr6.R")

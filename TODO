@@ -1,5 +1,14 @@
+https://thecoatlessprofessor.com/programming/cpp/unofficial-rcpp-api-documentation/
+https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-attributes.pdf
+https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-FAQ.pdfå
+
 TODO:
 
-  *function to open implementation files
-  *in Notes links to R and Rcpp implementation files in package
+DONE  *function to open implementation files
 
+ONGOING  *Don't forget to keep adding in files for Notes links to R and Rcpp implementation/example
+          files for package
+
+  *Header files Rcpp Attributes??
+
+  * Passing functions as arguements. Pointers?? XPtr??

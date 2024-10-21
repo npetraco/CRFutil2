@@ -1,3 +1,5 @@
+library(CRFutil2)
+
 #Consider an Potts-like model with node/edge weights:
 tau   <- c(2, 3.4, 3)
 omega <- rbind(

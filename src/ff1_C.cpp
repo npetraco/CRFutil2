@@ -5,8 +5,18 @@
 using namespace Rcpp;
 using namespace std;
 
-// Stripped down version of ff0_C. No checking. Not idiot proof.
-
+//' @title       Stripped down version of ff0_C. No checking. Not idiot proof.
+//' @description Built-in feature function for convenience and testing.
+//'
+//' @param st     State label
+//' @param ss_dim State space dimension. Minimum is 2 (Ising), but function doesn't check.
+//' @param w_vec  Weight vector. Needs to be of length ss_dim.
+//' @param st_vec Vector for state names. Needs to be of length ss_dim.
+//'
+//' @details Stripped down version of ff0_C. No checking. Not idiot proof. Meant to be faster. Runs about as fast as ff0 on the R side.
+//'
+//' @return The feature function, which is a arma vector.
+//'
 // [[Rcpp::export]]
 arma::vec ff1_C(double st, double ss_dim, arma::vec w_vec, arma::vec st_vec) {
 

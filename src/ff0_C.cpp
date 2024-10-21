@@ -5,9 +5,27 @@
 using namespace Rcpp;
 using namespace std;
 
-// Built-in feature function for convenience and testing. Works pretty much like ff0 on the R side.
-// Surprisingly though this is twice as slow as ff0....
-
+//' @title       Feature function in Rcpp
+//' @description Built-in feature function for convenience and testing. Works pretty much like ff0 on the R side.
+//'
+//' @param st     State label
+//' @param ss_dim State space dimension. Default is 2 (Ising)
+//' @param w_vec  Optional weight vector
+//' @param st_vec Optional vector for state names
+//'
+//' @details The function is a handy feature function for testing. It can handle both Ising and Potts state spaces. Surprisingly though this is twice as slow as ff0....
+//'
+//' @return The feature function, which is a arma vector.
+//'
+//' @examples ff0_C(st = 3, ss_dim = 4, st_vec = c(0,1,2,3))
+//' ff0_C(st = "a", st_vec = c("a","b"))
+//' ff0_C(st = "ID", ss.dim = 3, st.vec = c("ID","exclude","inconclusive"))
+//' ff0_C(1)
+//' ff0_C(1,3)
+//' ff0_C(st = "b")           # Throws error
+//' ff0_C(st = 5)             # Throws error
+//' ff0_C(st = 5, ss_dim = 4) # Throws error
+//'
 // [[Rcpp::export]]
 arma::vec ff0_C(RObject st, int ss_dim=2, Nullable<IntegerVector> w_vec = R_NilValue, Nullable<StringVector> st_vec = R_NilValue) {
 

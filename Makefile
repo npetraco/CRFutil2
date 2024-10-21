@@ -12,4 +12,4 @@ local:
 	git commit -m "Local update"
 
 clean:
-	rm -rf src/*.o
+	rm -rf src/*.o .Rhistory
