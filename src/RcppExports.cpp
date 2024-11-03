@@ -11,6 +11,46 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// Eone_C
+double Eone_C(RObject yA, arma::vec tA, Function ff, Nullable<List> dots);
+RcppExport SEXP _CRFutil2_Eone_C(SEXP yASEXP, SEXP tASEXP, SEXP ffSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type yA(yASEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type tA(tASEXP);
+    Rcpp::traits::input_parameter< Function >::type ff(ffSEXP);
+    Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(Eone_C(yA, tA, ff, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ff01_C
+arma::vec ff01_C(double st, double ss_dim, arma::vec w_vec, arma::vec st_vec);
+RcppExport SEXP _CRFutil2_ff01_C(SEXP stSEXP, SEXP ss_dimSEXP, SEXP w_vecSEXP, SEXP st_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type st(stSEXP);
+    Rcpp::traits::input_parameter< double >::type ss_dim(ss_dimSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type w_vec(w_vecSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type st_vec(st_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff01_C(st, ss_dim, w_vec, st_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ff02_C
+arma::uvec ff02_C(double st, arma::vec st_vec);
+RcppExport SEXP _CRFutil2_ff02_C(SEXP stSEXP, SEXP st_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type st(stSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type st_vec(st_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff02_C(st, st_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ff0_C
 arma::vec ff0_C(RObject st, int ss_dim, Nullable<IntegerVector> w_vec, Nullable<StringVector> st_vec);
 RcppExport SEXP _CRFutil2_ff0_C(SEXP stSEXP, SEXP ss_dimSEXP, SEXP w_vecSEXP, SEXP st_vecSEXP) {
@@ -26,28 +66,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // ff1_C
-arma::vec ff1_C(double st, double ss_dim, arma::vec w_vec, arma::vec st_vec);
-RcppExport SEXP _CRFutil2_ff1_C(SEXP stSEXP, SEXP ss_dimSEXP, SEXP w_vecSEXP, SEXP st_vecSEXP) {
+arma::vec ff1_C(RObject ns, Nullable<List> dots);
+RcppExport SEXP _CRFutil2_ff1_C(SEXP nsSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type st(stSEXP);
-    Rcpp::traits::input_parameter< double >::type ss_dim(ss_dimSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type w_vec(w_vecSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type st_vec(st_vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(ff1_C(st, ss_dim, w_vec, st_vec));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ff2_C
-arma::uvec ff2_C(double st, arma::vec st_vec);
-RcppExport SEXP _CRFutil2_ff2_C(SEXP stSEXP, SEXP st_vecSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type st(stSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type st_vec(st_vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(ff2_C(st, st_vec));
+    Rcpp::traits::input_parameter< RObject >::type ns(nsSEXP);
+    Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff1_C(ns, dots));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -61,12 +87,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// compare_element
+arma::vec compare_element(RObject element, GenericVector vector);
+RcppExport SEXP _CRFutil2_compare_element(SEXP elementSEXP, SEXP vectorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type element(elementSEXP);
+    Rcpp::traits::input_parameter< GenericVector >::type vector(vectorSEXP);
+    rcpp_result_gen = Rcpp::wrap(compare_element(element, vector));
+    return rcpp_result_gen;
+END_RCPP
+}
+// inQ
+bool inQ(RObject element, GenericVector vector);
+RcppExport SEXP _CRFutil2_inQ(SEXP elementSEXP, SEXP vectorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type element(elementSEXP);
+    Rcpp::traits::input_parameter< GenericVector >::type vector(vectorSEXP);
+    rcpp_result_gen = Rcpp::wrap(inQ(element, vector));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_CRFutil2_Eone_C", (DL_FUNC) &_CRFutil2_Eone_C, 4},
+    {"_CRFutil2_ff01_C", (DL_FUNC) &_CRFutil2_ff01_C, 4},
+    {"_CRFutil2_ff02_C", (DL_FUNC) &_CRFutil2_ff02_C, 2},
     {"_CRFutil2_ff0_C", (DL_FUNC) &_CRFutil2_ff0_C, 4},
-    {"_CRFutil2_ff1_C", (DL_FUNC) &_CRFutil2_ff1_C, 4},
-    {"_CRFutil2_ff2_C", (DL_FUNC) &_CRFutil2_ff2_C, 2},
+    {"_CRFutil2_ff1_C", (DL_FUNC) &_CRFutil2_ff1_C, 2},
     {"_CRFutil2_rcpp_prototypef", (DL_FUNC) &_CRFutil2_rcpp_prototypef, 0},
+    {"_CRFutil2_compare_element", (DL_FUNC) &_CRFutil2_compare_element, 2},
+    {"_CRFutil2_inQ", (DL_FUNC) &_CRFutil2_inQ, 2},
     {NULL, NULL, 0}
 };
 

@@ -2,25 +2,30 @@
 % Please edit documentation in R/RcppExports.R
 \name{ff1_C}
 \alias{ff1_C}
-\title{Stripped down version of ff0_C. No checking. Not idiot proof.}
+\title{Feature function in Rcpp}
 \usage{
-ff1_C(st, ss_dim, w_vec, st_vec)
+ff1_C(ns, dots = NULL)
 }
 \arguments{
-\item{st}{State label}
+\item{ns}{state label of node (\emph{i.e.} node state)}
 
-\item{ss_dim}{State space dimension. Minimum is 2 (Ising), but function doesn't check.}
-
-\item{w_vec}{Weight vector. Needs to be of length ss_dim.}
-
-\item{st_vec}{Vector for state names. Needs to be of length ss_dim.}
+\item{dots}{Optional arguments: \cr
+\describe{
+  \item{\code{nss.vec}}{node state space (a vector)}
+  \item{\code{nss.dim}}{node state space dimension}
+  \item{\code{w.vec}}{node state space weight vector}
+}}
 }
 \value{
 The feature function, which is a arma vector.
 }
 \description{
-Built-in feature function for convenience and testing.
+Built-in feature function for convenience and testing. Works pretty much like ff1 on the R side.
 }
 \details{
-Stripped down version of ff0_C. No checking. Not idiot proof. Meant to be faster. Runs about as fast as ff0 on the R side.
+The function is a handy feature function for testing. It can handle both Ising and Potts state spaces. Surprisingly though this is 2X-4X as slow as ff0.... WHY??
+}
+\examples{
+XXXX
+
 }

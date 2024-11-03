@@ -4,16 +4,18 @@
 \alias{Etwo}
 \title{Two-body (edge) energy function}
 \usage{
-Etwo(yA, yB, wAB, ff)
+Etwo(yA, yB, wAB, ff, ...)
 }
 \arguments{
-\item{yA}{A node state}
+\item{yA}{node A state}
 
-\item{yB}{A node state}
+\item{yB}{node B state}
 
-\item{wAB}{Tau vector}
+\item{wAB}{omega matrix}
 
-\item{ff}{Feature function}
+\item{ff}{feature function}
+
+\item{...}{optional arguments for feature function}
 }
 \value{
 Two-body (edge) energy.
@@ -22,9 +24,29 @@ Two-body (edge) energy.
 Two-body (edge) energy function
 }
 \details{
-Two-body (edge) energy function.
+Two-body (edge) energy function
 }
 \examples{
-XXXXX
+# edge weights:
+omega22 <- rbind(
+ c( 3.5, -1.4),
+ c(-1.4,  2.5)
+)
+
+omega33 <- rbind(
+ c( 3.5, -1.4,   2.5),
+ c(-1.4,  2.5,  -0.8),
+ c( 3.8,  0.95, -7.6)
+)
+
+Etwo(yA = 2, yB = 1, wAB = omega22, ff = ff1, nss.dim=2)
+Etwo(yA = 2, yB = 1, wAB = omega22, ff = ff1, nss.dim=3) # Throws error
+Etwo(yA = 2, yB = 2, wAB = omega33, ff = ff1, nss.dim=3) # Throws error
+Etwo(yA = "c", yB = "b", wAB = omega33, ff = ff1, nss.vec=c("a", "b", "c"))
+
+Etwo(yA = 2, yB = 1, wAB = omega22, ff = ff0)
+Etwo(yA = 2, yB = 1, wAB = omega33, ff = ff0)
+Etwo(yA = 2, yB = 1, wAB = omega33, ff = ff1) # Throws error bec nss.dim=2 assumed
+Etwo(yA = 2, yB = 1, wAB = omega22, ff = ff1)
 
 }

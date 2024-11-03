@@ -4,14 +4,16 @@
 \alias{Eone}
 \title{One-body (node) energy function}
 \usage{
-Eone(yA, tA, ff)
+Eone(yA, tA, ff, ...)
 }
 \arguments{
-\item{yA}{A node state}
+\item{yA}{a node state}
 
-\item{tA}{Tau vector}
+\item{tA}{tau vector}
 
-\item{ff}{Feature function}
+\item{ff}{feature function}
+
+\item{...}{optional arguments for feature function}
 }
 \value{
 One-body (node) energy.
@@ -23,6 +25,16 @@ One-body (node) energy function
 One-body (node) energy function
 }
 \examples{
-XXXXX
+# node weights:
+tau2 <- c( 1, -1.3)
+tau3 <- c( 1, -1.3, 0.1)
+
+Eone(yA = 2, tA = tau3, ff = ff1, nss.dim=3)
+Eone(yA = 3, tA = tau3, ff = ff1, nss.dim=3)
+Eone(yA = 2, tA = tau2, ff = ff1)
+Eone(yA = "a", tA = tau3, ff = ff1, nss.vec = c("a", "b", "c"))
+Eone(yA = 2, tA = tau2, ff = ff0)
+Eone(yA = 1, tA = tau2, ff = ff0)
+Eone(yA = 3, tA = tau2, ff = ff0) # Throws error because less general ff0 used
 
 }

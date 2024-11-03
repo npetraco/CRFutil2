@@ -1,6 +1,7 @@
 https://thecoatlessprofessor.com/programming/cpp/unofficial-rcpp-api-documentation/
 https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-attributes.pdf
 https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-FAQ.pdfå
+https://cran.r-project.org/doc/manuals/r-release/R-ints.html#SEXPTYPEs
 
 TODO:
 
@@ -9,6 +10,14 @@ DONE  *function to open implementation files
 ONGOING  *Don't forget to keep adding in files for Notes links to R and Rcpp implementation/example
           files for package
 
-  *Header files Rcpp Attributes??
+DONE  *Header files Rcpp Attributes??
+  cf. utils.cpp, utils.h
 
-  * Passing functions as arguements. Pointers?? XPtr??
+DONE-ish Fast-ish/Efficient %in% function in Rcpp or C++
+  cf. compare_element, inQ in util.cpp
+
+DONE-ish Passing functions as arguements. Pointers?? XPtr??
+  cf. Eone_C. Use Function
+
+* tools to profile Rcpp code: memory usage, copies, chunk speeds?? Why is ff1_C soooo slow??!!
+

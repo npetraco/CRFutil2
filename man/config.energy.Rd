@@ -4,23 +4,25 @@
 \alias{config.energy}
 \title{Energy function for a configuration of states}
 \usage{
-config.energy(config, edges.mat, one.lgp, two.lgp, ff)
+config.energy(config, edges.mat, one.nlp, two.nlp, ff)
 }
 \arguments{
-\item{config}{A node configuration (state) vector}
+\item{config}{a node configuration (configuration state) vector}
 
-\item{edges.mat}{Matrix of connected node edges}
-
-\item{two.lgp}{Log edge potentials (two-body energies)}
+\item{edges.mat}{matrix of connected node edges}
 
 \item{ff}{The feature function}
+
+\item{two.lgp}{negative-log edge potentials (two-body "energies"), entered as a list}
+
+\item{...}{Optional arguments for feature function.}
 }
 \value{
 The function will XX
 }
 \description{
-Compute total energy of a configuration. Assumes node/edge energies are in gRbase format   *****GENERALIZE
+Compute total energy of a configuration. Assumes node/edge energies are both entered as lists.
 }
 \details{
-The function will XXXX
+Assumes node/edge energies are both entered as lists.
 }
