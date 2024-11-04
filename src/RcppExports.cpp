@@ -25,6 +25,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// Etwo_C
+double Etwo_C(RObject yA, RObject yB, arma::mat wAB, Function ff, Nullable<List> dots);
+RcppExport SEXP _CRFutil2_Etwo_C(SEXP yASEXP, SEXP yBSEXP, SEXP wABSEXP, SEXP ffSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type yA(yASEXP);
+    Rcpp::traits::input_parameter< RObject >::type yB(yBSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type wAB(wABSEXP);
+    Rcpp::traits::input_parameter< Function >::type ff(ffSEXP);
+    Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(Etwo_C(yA, yB, wAB, ff, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ff01_C
 arma::vec ff01_C(double st, double ss_dim, arma::vec w_vec, arma::vec st_vec);
 RcppExport SEXP _CRFutil2_ff01_C(SEXP stSEXP, SEXP ss_dimSEXP, SEXP w_vecSEXP, SEXP st_vecSEXP) {
@@ -62,6 +77,30 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type w_vec(w_vecSEXP);
     Rcpp::traits::input_parameter< Nullable<StringVector> >::type st_vec(st_vecSEXP);
     rcpp_result_gen = Rcpp::wrap(ff0_C(st, ss_dim, w_vec, st_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ff11_C
+NumericVector ff11_C(double ns, List dots);
+RcppExport SEXP _CRFutil2_ff11_C(SEXP nsSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type ns(nsSEXP);
+    Rcpp::traits::input_parameter< List >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff11_C(ns, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ff12_C
+NumericVector ff12_C(double ns, NumericVector nss_vec);
+RcppExport SEXP _CRFutil2_ff12_C(SEXP nsSEXP, SEXP nss_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type ns(nsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type nss_vec(nss_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff12_C(ns, nss_vec));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -114,9 +153,12 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_CRFutil2_Eone_C", (DL_FUNC) &_CRFutil2_Eone_C, 4},
+    {"_CRFutil2_Etwo_C", (DL_FUNC) &_CRFutil2_Etwo_C, 5},
     {"_CRFutil2_ff01_C", (DL_FUNC) &_CRFutil2_ff01_C, 4},
     {"_CRFutil2_ff02_C", (DL_FUNC) &_CRFutil2_ff02_C, 2},
     {"_CRFutil2_ff0_C", (DL_FUNC) &_CRFutil2_ff0_C, 4},
+    {"_CRFutil2_ff11_C", (DL_FUNC) &_CRFutil2_ff11_C, 2},
+    {"_CRFutil2_ff12_C", (DL_FUNC) &_CRFutil2_ff12_C, 2},
     {"_CRFutil2_ff1_C", (DL_FUNC) &_CRFutil2_ff1_C, 2},
     {"_CRFutil2_rcpp_prototypef", (DL_FUNC) &_CRFutil2_rcpp_prototypef, 0},
     {"_CRFutil2_compare_element", (DL_FUNC) &_CRFutil2_compare_element, 2},

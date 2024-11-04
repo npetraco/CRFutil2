@@ -41,7 +41,7 @@ omega33 <- rbind(
 
 Etwo(yA = 2, yB = 1, wAB = omega22, ff = ff1, nss.dim=2)
 Etwo(yA = 2, yB = 1, wAB = omega22, ff = ff1, nss.dim=3) # Throws error
-Etwo(yA = 2, yB = 2, wAB = omega33, ff = ff1, nss.dim=3) # Throws error
+Etwo(yA = 2, yB = 2, wAB = omega33, ff = ff1, nss.dim=3)
 Etwo(yA = "c", yB = "b", wAB = omega33, ff = ff1, nss.vec=c("a", "b", "c"))
 
 Etwo(yA = 2, yB = 1, wAB = omega22, ff = ff0)

@@ -2,23 +2,39 @@
 % Please edit documentation in R/RcppExports.R
 \name{Eone_C}
 \alias{Eone_C}
-\title{XX function}
+\title{One-body (node) energy function}
 \usage{
 Eone_C(yA, tA, ff, dots = NULL)
 }
 \arguments{
-\item{XX}{XX}
+\item{yA}{a node state}
+
+\item{tA}{tau vector}
+
+\item{ff}{feature function}
+
+\item{dots}{list of optional arguments for feature function}
 }
 \value{
-XX
+One-body (node) energy.
 }
 \description{
-XX
+One-body (node) energy function
 }
 \details{
-The function XX
+One-body (node) energy function
 }
 \examples{
-XXXX
+# node weights:
+tau2 <- c( 1, -1.3)
+tau3 <- c( 1, -1.3, 0.1)
+
+Eone_C(yA = 2, tA = tau3, ff = ff1_C, list(nss.dim=3))
+Eone_C(yA = 3, tA = tau3, ff = ff1_C, list(nss.dim=3))
+Eone_C(yA = 2, tA = tau2, ff = ff1_C)
+Eone_C(yA = "a", tA = tau3, ff = ff1_C, list(nss.vec = c("a", "b", "c")))
+Eone_C(yA = 2, tA = tau2, ff = ff0_C)
+Eone_C(yA = 1, tA = tau2, ff = ff0_C)
+Eone_C(yA = 3, tA = tau2, ff = ff0_C) # Throws error because less general ff0 used
 
 }

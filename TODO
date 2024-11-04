@@ -17,7 +17,12 @@ DONE-ish Fast-ish/Efficient %in% function in Rcpp or C++
   cf. compare_element, inQ in util.cpp
 
 DONE-ish Passing functions as arguements. Pointers?? XPtr??
-  cf. Eone_C. Use Function
+  cf. Eone_C. Use Function class
 
 * tools to profile Rcpp code: memory usage, copies, chunk speeds?? Why is ff1_C soooo slow??!!
+  Try RcppClock. gperftools not working right on Mac OSX..... UGH.....
+  Can we do anything with Intel VTune??
 
+* Maybe re-implement Rcpp feature functions as a unified object with different implementations for the feature functions (i.e. member functions). Send in optional arguements (dots) as a List. Null lists should ok, but don't do Nullable.
+
+* Make variable names in ff0 consistent with ffX_C variable names

@@ -72,3 +72,9 @@ ff1 <- function(ns, ...) {
   return(ff.vec)
 
 }
+
+
+# UMMM..... So we can "seamlessly" use with the other Rcpp functions that accept ffX_C feature functions
+ff12_RC <- function(ns, dots) {
+  return(ff12_C(ns, dots$nss.vec))
+}

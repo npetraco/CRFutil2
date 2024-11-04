@@ -1,6 +1,6 @@
 Package: CRFutil2
 Type: Package
-Title: Handy Utility Functions for Use with CRF and gRbase packages
+Title: (Updated) Handy Utility Functions for Use with CRF and gRbase packages
 Version: 0.1.0
 Author: Nick Petraco
 Maintainer: <npetraco@gmail.com>
