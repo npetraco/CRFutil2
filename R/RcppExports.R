@@ -173,6 +173,14 @@ ff1_C <- function(ns, dots = NULL) {
     .Call(`_CRFutil2_ff1_C`, ns, dots)
 }
 
+start_profiler <- function(str) {
+    .Call(`_CRFutil2_start_profiler`, str)
+}
+
+stop_profiler <- function() {
+    .Call(`_CRFutil2_stop_profiler`)
+}
+
 #' @title        XX function
 #' @description XX
 #'
