@@ -104,6 +104,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ff13_C
+IntegerVector ff13_C(int ns, int nss_dim);
+RcppExport SEXP _CRFutil2_ff13_C(SEXP nsSEXP, SEXP nss_dimSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type ns(nsSEXP);
+    Rcpp::traits::input_parameter< int >::type nss_dim(nss_dimSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff13_C(ns, nss_dim));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ff1_C
 arma::vec ff1_C(RObject ns, Nullable<List> dots);
 RcppExport SEXP _CRFutil2_ff1_C(SEXP nsSEXP, SEXP dotsSEXP) {
@@ -116,24 +128,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// start_profiler
-SEXP start_profiler(SEXP str);
-RcppExport SEXP _CRFutil2_start_profiler(SEXP strSEXP) {
+// ff1_times_C
+arma::vec ff1_times_C(RObject ns, Nullable<List> dots);
+RcppExport SEXP _CRFutil2_ff1_times_C(SEXP nsSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type str(strSEXP);
-    rcpp_result_gen = Rcpp::wrap(start_profiler(str));
-    return rcpp_result_gen;
-END_RCPP
-}
-// stop_profiler
-SEXP stop_profiler();
-RcppExport SEXP _CRFutil2_stop_profiler() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(stop_profiler());
+    Rcpp::traits::input_parameter< RObject >::type ns(nsSEXP);
+    Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff1_times_C(ns, dots));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -180,9 +183,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_CRFutil2_ff0_C", (DL_FUNC) &_CRFutil2_ff0_C, 4},
     {"_CRFutil2_ff11_C", (DL_FUNC) &_CRFutil2_ff11_C, 2},
     {"_CRFutil2_ff12_C", (DL_FUNC) &_CRFutil2_ff12_C, 2},
+    {"_CRFutil2_ff13_C", (DL_FUNC) &_CRFutil2_ff13_C, 2},
     {"_CRFutil2_ff1_C", (DL_FUNC) &_CRFutil2_ff1_C, 2},
-    {"_CRFutil2_start_profiler", (DL_FUNC) &_CRFutil2_start_profiler, 1},
-    {"_CRFutil2_stop_profiler", (DL_FUNC) &_CRFutil2_stop_profiler, 0},
+    {"_CRFutil2_ff1_times_C", (DL_FUNC) &_CRFutil2_ff1_times_C, 2},
     {"_CRFutil2_rcpp_prototypef", (DL_FUNC) &_CRFutil2_rcpp_prototypef, 0},
     {"_CRFutil2_compare_element", (DL_FUNC) &_CRFutil2_compare_element, 2},
     {"_CRFutil2_inQ", (DL_FUNC) &_CRFutil2_inQ, 2},

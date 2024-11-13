@@ -152,6 +152,13 @@ ff12_C <- function(ns, nss_vec) {
     .Call(`_CRFutil2_ff12_C`, ns, nss_vec)
 }
 
+#' @title        Very ver stripped down version of ff1_C. No checking, assumes unit weighted states and integer node state names starting at 1.
+NULL
+
+ff13_C <- function(ns, nss_dim) {
+    .Call(`_CRFutil2_ff13_C`, ns, nss_dim)
+}
+
 #' @title       Feature function in Rcpp
 #' @description Built-in feature function for convenience and testing. Works pretty much like ff1 on the R side.
 #'
@@ -173,12 +180,26 @@ ff1_C <- function(ns, dots = NULL) {
     .Call(`_CRFutil2_ff1_C`, ns, dots)
 }
 
-start_profiler <- function(str) {
-    .Call(`_CRFutil2_start_profiler`, str)
-}
-
-stop_profiler <- function() {
-    .Call(`_CRFutil2_stop_profiler`)
+#' @title       Feature function in Rcpp example with timers via RcppClock
+#' @description Built-in feature function for convenience and testing. Works pretty much like ff1 on the R side.
+#'
+#' @param ns     state label of node (\emph{i.e.} node state)
+#' @param dots   Optional arguments: \cr
+#'               \describe{
+#'                 \item{\code{nss.vec}}{node state space (a vector)}
+#'                 \item{\code{nss.dim}}{node state space dimension}
+#'                 \item{\code{w.vec}}{node state space weight vector}
+#'               }
+#'
+#' @details Example function with timers via RcppClock for timing execution on blocks of code.
+#' This is also part of experiments to explore why ff1_C runs 2X-4X as slow as ff0.
+#'
+#' @return The feature function, which is a arma vector.
+#'
+#' @examples XXXX
+#'
+ff1_times_C <- function(ns, dots = NULL) {
+    .Call(`_CRFutil2_ff1_times_C`, ns, dots)
 }
 
 #' @title        XX function
