@@ -4,7 +4,7 @@
 \alias{config.energy}
 \title{Energy function for a configuration of states}
 \usage{
-config.energy(config, edges.mat, one.nlp, two.nlp, ff)
+config.energy(config, edges.mat, one.nlp, two.nlp, ff, ...)
 }
 \arguments{
 \item{config}{a node configuration (configuration state) vector}
@@ -13,9 +13,9 @@ config.energy(config, edges.mat, one.nlp, two.nlp, ff)
 
 \item{ff}{The feature function}
 
-\item{two.lgp}{negative-log edge potentials (two-body "energies"), entered as a list}
-
 \item{...}{Optional arguments for feature function.}
+
+\item{two.lgp}{negative-log edge potentials (two-body "energies"), entered as a list}
 }
 \value{
 The function will XX

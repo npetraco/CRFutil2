@@ -86,25 +86,26 @@ Etwo  <- function(yA, yB, wAB, ff, ...){
 #' @return The function will XX
 #'
 #' @export
-config.energy <- function(config, edges.mat, one.nlp, two.nlp, ff) {
+config.energy <- function(config, edges.mat, one.nlp, two.nlp, ff, ...) {
 
-  num.nodes <- length(config)
-  num.edges <- nrow(edges.mat)
+  config.loc <- as.vector(as.matrix(config)) # Guarantee that the config is a vector. Other data types, particularly dataframes, can cause misinterpretation issues.
+  num.nodes  <- length(config.loc)
+  num.edges  <- nrow(edges.mat)
 
-  # # Sum One-body energies (log node-potentials)
-  # e.one <- 0
-  # for(i in 1:num.nodes){
-  #   e.one <- e.one + Eone(config[i], one.lgp[[i]], ff)
-  # }
-  #
-  # # Sum Two-body energies (log edge-potentials)
-  # e.two <- 0
-  # for(i in 1:num.edges){
-  #   e.two <- e.two + Etwo(config[edges.mat[i,1]], config[edges.mat[i,2]], two.lgp[[i]], ff)
-  # }
-  #
-  # ener <- as.numeric(e.one + e.two)
-  #
-  # return(ener)
+  # Sum One-body energies (log node-potentials)
+  e.one <- 0
+  for(i in 1:num.nodes){
+    e.one <- e.one + Eone(config.loc[i], one.nlp[[i]], ff, ...)
+  }
+
+  # Sum Two-body energies (log edge-potentials)
+  e.two <- 0
+  for(i in 1:num.edges){
+    e.two <- e.two + Etwo(config.loc[edges.mat[i,1]], config.loc[edges.mat[i,2]], two.nlp[[i]], ff, ...)
+  }
+
+  ener <- as.numeric(e.one + e.two)
+
+  return(ener)
 }
 

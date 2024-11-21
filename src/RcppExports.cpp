@@ -40,6 +40,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ff0_C
+arma::vec ff0_C(RObject st, int ss_dim, Nullable<IntegerVector> w_vec, Nullable<StringVector> st_vec);
+RcppExport SEXP _CRFutil2_ff0_C(SEXP stSEXP, SEXP ss_dimSEXP, SEXP w_vecSEXP, SEXP st_vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type st(stSEXP);
+    Rcpp::traits::input_parameter< int >::type ss_dim(ss_dimSEXP);
+    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type w_vec(w_vecSEXP);
+    Rcpp::traits::input_parameter< Nullable<StringVector> >::type st_vec(st_vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff0_C(st, ss_dim, w_vec, st_vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ff01_C
 arma::vec ff01_C(double st, double ss_dim, arma::vec w_vec, arma::vec st_vec);
 RcppExport SEXP _CRFutil2_ff01_C(SEXP stSEXP, SEXP ss_dimSEXP, SEXP w_vecSEXP, SEXP st_vecSEXP) {
@@ -54,6 +68,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ff1_C
+arma::vec ff1_C(RObject ns, Nullable<List> dots);
+RcppExport SEXP _CRFutil2_ff1_C(SEXP nsSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type ns(nsSEXP);
+    Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff1_C(ns, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ff1_times_C
+arma::vec ff1_times_C(RObject ns, Nullable<List> dots);
+RcppExport SEXP _CRFutil2_ff1_times_C(SEXP nsSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RObject >::type ns(nsSEXP);
+    Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(ff1_times_C(ns, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ff02_C
 arma::uvec ff02_C(double st, arma::vec st_vec);
 RcppExport SEXP _CRFutil2_ff02_C(SEXP stSEXP, SEXP st_vecSEXP) {
@@ -63,20 +101,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type st(stSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type st_vec(st_vecSEXP);
     rcpp_result_gen = Rcpp::wrap(ff02_C(st, st_vec));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ff0_C
-arma::vec ff0_C(RObject st, int ss_dim, Nullable<IntegerVector> w_vec, Nullable<StringVector> st_vec);
-RcppExport SEXP _CRFutil2_ff0_C(SEXP stSEXP, SEXP ss_dimSEXP, SEXP w_vecSEXP, SEXP st_vecSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< RObject >::type st(stSEXP);
-    Rcpp::traits::input_parameter< int >::type ss_dim(ss_dimSEXP);
-    Rcpp::traits::input_parameter< Nullable<IntegerVector> >::type w_vec(w_vecSEXP);
-    Rcpp::traits::input_parameter< Nullable<StringVector> >::type st_vec(st_vecSEXP);
-    rcpp_result_gen = Rcpp::wrap(ff0_C(st, ss_dim, w_vec, st_vec));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -113,30 +137,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type ns(nsSEXP);
     Rcpp::traits::input_parameter< int >::type nss_dim(nss_dimSEXP);
     rcpp_result_gen = Rcpp::wrap(ff13_C(ns, nss_dim));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ff1_C
-arma::vec ff1_C(RObject ns, Nullable<List> dots);
-RcppExport SEXP _CRFutil2_ff1_C(SEXP nsSEXP, SEXP dotsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< RObject >::type ns(nsSEXP);
-    Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ff1_C(ns, dots));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ff1_times_C
-arma::vec ff1_times_C(RObject ns, Nullable<List> dots);
-RcppExport SEXP _CRFutil2_ff1_times_C(SEXP nsSEXP, SEXP dotsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< RObject >::type ns(nsSEXP);
-    Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ff1_times_C(ns, dots));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -178,14 +178,14 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_CRFutil2_Eone_C", (DL_FUNC) &_CRFutil2_Eone_C, 4},
     {"_CRFutil2_Etwo_C", (DL_FUNC) &_CRFutil2_Etwo_C, 5},
-    {"_CRFutil2_ff01_C", (DL_FUNC) &_CRFutil2_ff01_C, 4},
-    {"_CRFutil2_ff02_C", (DL_FUNC) &_CRFutil2_ff02_C, 2},
     {"_CRFutil2_ff0_C", (DL_FUNC) &_CRFutil2_ff0_C, 4},
+    {"_CRFutil2_ff01_C", (DL_FUNC) &_CRFutil2_ff01_C, 4},
+    {"_CRFutil2_ff1_C", (DL_FUNC) &_CRFutil2_ff1_C, 2},
+    {"_CRFutil2_ff1_times_C", (DL_FUNC) &_CRFutil2_ff1_times_C, 2},
+    {"_CRFutil2_ff02_C", (DL_FUNC) &_CRFutil2_ff02_C, 2},
     {"_CRFutil2_ff11_C", (DL_FUNC) &_CRFutil2_ff11_C, 2},
     {"_CRFutil2_ff12_C", (DL_FUNC) &_CRFutil2_ff12_C, 2},
     {"_CRFutil2_ff13_C", (DL_FUNC) &_CRFutil2_ff13_C, 2},
-    {"_CRFutil2_ff1_C", (DL_FUNC) &_CRFutil2_ff1_C, 2},
-    {"_CRFutil2_ff1_times_C", (DL_FUNC) &_CRFutil2_ff1_times_C, 2},
     {"_CRFutil2_rcpp_prototypef", (DL_FUNC) &_CRFutil2_rcpp_prototypef, 0},
     {"_CRFutil2_compare_element", (DL_FUNC) &_CRFutil2_compare_element, 2},
     {"_CRFutil2_inQ", (DL_FUNC) &_CRFutil2_inQ, 2},

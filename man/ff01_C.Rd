@@ -22,5 +22,6 @@ The feature function, which is a arma vector.
 Built-in feature function for convenience and testing.
 }
 \details{
-Stripped down version of ff0_C. No checking. Not idiot proof. Meant to be faster. Runs about as fast as ff0 on the R side.
+Stripped down version of ff0_C. No checking. Not idiot proof. Meant to be faster. Runs 
+about as fast as ff0 on the R side.
 }

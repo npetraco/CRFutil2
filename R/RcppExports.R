@@ -68,36 +68,6 @@ Etwo_C <- function(yA, yB, wAB, ff, dots = NULL) {
     .Call(`_CRFutil2_Etwo_C`, yA, yB, wAB, ff, dots)
 }
 
-#' @title       Stripped down version of ff0_C. No checking. Not idiot proof.
-#' @description Built-in feature function for convenience and testing.
-#'
-#' @param st     State label
-#' @param ss_dim State space dimension. Minimum is 2 (Ising), but function doesn't check.
-#' @param w_vec  Weight vector. Needs to be of length ss_dim.
-#' @param st_vec Vector for state names. Needs to be of length ss_dim.
-#'
-#' @details Stripped down version of ff0_C. No checking. Not idiot proof. Meant to be faster. Runs about as fast as ff0 on the R side.
-#'
-#' @return The feature function, which is a arma vector.
-#'
-ff01_C <- function(st, ss_dim, w_vec, st_vec) {
-    .Call(`_CRFutil2_ff01_C`, st, ss_dim, w_vec, st_vec)
-}
-
-#' @title       Very stripped down version of ff0_C. No checking and assumes unit weighted states.
-#' @description Built-in feature function for convenience and testing.
-#'
-#' @param st     State label
-#' @param st_vec Vector for state names. Needs to be at least two (numerical) components.
-#'
-#' @details Very stripped down version of ff0_C. Runs fastest of the three: ff0_C, ff1_C and ff2_C.
-#'
-#' @return The feature function, which is a arma unsigned vector.
-#'
-ff02_C <- function(st, st_vec) {
-    .Call(`_CRFutil2_ff02_C`, st, st_vec)
-}
-
 #' @title       Feature function in Rcpp
 #' @description Built-in feature function for convenience and testing. Works pretty much like ff0 on the R side.
 #'
@@ -123,40 +93,21 @@ ff0_C <- function(st, ss_dim = 2L, w_vec = NULL, st_vec = NULL) {
     .Call(`_CRFutil2_ff0_C`, st, ss_dim, w_vec, st_vec)
 }
 
-#' @title       A stripped down version of ff1_C. No checking, assumes unit weighted states and integer 1:(node state space dimension) node state names.
+#' @title       Stripped down version of ff0_C. No checking. Not idiot proof.
 #' @description Built-in feature function for convenience and testing.
 #'
-#' @param ns      State label
-#' @param nss_vec Vector for state names. Use in place of dots arguement.
+#' @param st     State label
+#' @param ss_dim State space dimension. Minimum is 2 (Ising), but function doesn't check.
+#' @param w_vec  Weight vector. Needs to be of length ss_dim.
+#' @param st_vec Vector for state names. Needs to be of length ss_dim.
 #'
-#' @details A stripped down version of ff1_C. Built for speed....I hope.
+#' @details Stripped down version of ff0_C. No checking. Not idiot proof. Meant to be faster. Runs 
+#' about as fast as ff0 on the R side.
 #'
-#' @return The feature function, which is a arma unsigned vector.
+#' @return The feature function, which is a arma vector.
 #'
-ff11_C <- function(ns, dots) {
-    .Call(`_CRFutil2_ff11_C`, ns, dots)
-}
-
-#' @title       Very stripped down version of ff1_C. No checking, assumes unit weighted states and integer 1:(node state space dimension) node state names.
-#' @description Built-in feature function for convenience and testing.
-#'
-#' @param ns      State label
-#' @param nss_vec Vector for state names. Use in place of dots arguement.
-#'
-#' @details Very stripped down version of ff1_C. Needs a helper R wrapper (ff12_RC()) because of the whole dots thing.
-#' Built for speed....I hope.
-#'
-#' @return The feature function, which is a arma unsigned vector.
-#'
-ff12_C <- function(ns, nss_vec) {
-    .Call(`_CRFutil2_ff12_C`, ns, nss_vec)
-}
-
-#' @title        Very ver stripped down version of ff1_C. No checking, assumes unit weighted states and integer node state names starting at 1.
-NULL
-
-ff13_C <- function(ns, nss_dim) {
-    .Call(`_CRFutil2_ff13_C`, ns, nss_dim)
+ff01_C <- function(st, ss_dim, w_vec, st_vec) {
+    .Call(`_CRFutil2_ff01_C`, st, ss_dim, w_vec, st_vec)
 }
 
 #' @title       Feature function in Rcpp
@@ -200,6 +151,66 @@ ff1_C <- function(ns, dots = NULL) {
 #'
 ff1_times_C <- function(ns, dots = NULL) {
     .Call(`_CRFutil2_ff1_times_C`, ns, dots)
+}
+
+#' @title       Very stripped down version of ff0_C. No checking and assumes unit weighted states.
+#' @description Built-in feature function for convenience and testing.
+#'
+#' @param st     State label
+#' @param st_vec Vector for state names. Needs to be at least two (numerical) components.
+#'
+#' @details Very stripped down version of ff0_C. Runs fastest of the three: ff0_C, ff1_C and ff2_C.
+#'
+#' @return The feature function, which is a arma unsigned vector.
+#'
+ff02_C <- function(st, st_vec) {
+    .Call(`_CRFutil2_ff02_C`, st, st_vec)
+}
+
+#' @title       A stripped down version of ff1_C. No checking, assumes unit weighted states and integer 1:(node state space dimension) node state names.
+#' @description Built-in feature function for convenience and testing.
+#'
+#' @param ns      State label
+#' @param nss_vec Vector for state names. Use in place of dots arguement.
+#'
+#' @details A stripped down version of ff1_C. Built for speed....I hope.
+#'
+#' @return The feature function, which is a arma unsigned vector.
+#'
+ff11_C <- function(ns, dots) {
+    .Call(`_CRFutil2_ff11_C`, ns, dots)
+}
+
+#' @title       Very stripped down version of ff1_C. No checking, assumes unit weighted states and integer 1:(node state space dimension) node state names.
+#' @description Built-in feature function for convenience and testing.
+#'
+#' @param ns      State label
+#' @param nss_vec Vector for state names. Use in place of dots arguement.
+#'
+#' @details Very stripped down version of ff1_C. Needs a helper R wrapper (ff12_RC()) because of the whole dots thing.
+#' Built for speed....I hope.
+#'
+#' @return The feature function, which is a arma unsigned vector.
+#'
+ff12_C <- function(ns, nss_vec) {
+    .Call(`_CRFutil2_ff12_C`, ns, nss_vec)
+}
+
+#' @title        Very ver stripped down version of ff1_C. No checking, assumes unit weighted states and integer node state names starting at 1.
+#' @description Built-in feature function for convenience and testing.
+#'
+#' @param ns      State label (integer between 1 and nss_dim)
+#' @param nss_dim Node state space dimension.
+#'
+#' @details Very very stripped down version of ff1_C. Built for speed. Assumes state space is
+#' integer valued, 1:nss_dim. Probably should use this with an R-side wrapper to sort out other
+#' arguments and arbitrary state names. CAUTION! No checks performed. This function can easily
+#' segfault.
+#'
+#' @return The feature function, which is an Rcpp integer vector.
+#'
+ff13_C <- function(ns, nss_dim) {
+    .Call(`_CRFutil2_ff13_C`, ns, nss_dim)
 }
 
 #' @title        XX function
