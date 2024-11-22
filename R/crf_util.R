@@ -84,7 +84,6 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
     }
 
     # Parameters per edge = num rows * num cols - 1
-    #print(param.count)
     for(i in 1:new.crf$n.edges){
       #print(paste("Edge#:", i))
       num.pars.this.edge                            <- prod(dim(new.crf$edge.par[[i]][,,1])) # Its actually 1 minus this but we correct at end.
@@ -133,5 +132,89 @@ dump.crf <- function(crf){
     print(crf.attrib.nms[i])
     print(crf[[crf.attrib.nms[i]]])
   }
+
+}
+
+
+#---------------------------------------------------------------------------
+# Internal auxiliary stuff to help out above for \em{slightly} improved readability
+#---------------------------------------------------------------------------
+
+# To make the more symmetric edge paramaterization indices:
+# wii == wjj
+# wii != wjj
+# wij == wji
+# wij != wji
+# Rectangular edge parameterization matrices (i.e. when the node state spaces
+# between the nodes are different sizes) are indexed symmetrically in the (top-left corner)
+# square part and sequentially, in row-major order, in the complement.
+edge.param.indices.helper <- function(nr, nc, pmax.idx, iijj.eqQ=T) {
+
+  im    <- array(-1, c(nr,nc))   # parameter index matrix
+
+  if(nr < nc) {                  # ** rectangular: more columns than rows
+    im.sq <- im[1:nr, 1:nr]      # square part
+    im.cp <- im[1:nr, (nr+1):nc] # complement
+  } else if(nr > nc) {           # ** rectangular: more rows than columns
+    im.sq <- im[1:nc, 1:nc]      # square part
+    im.cp <- im[(nc+1):nr, 1:nc] # complement
+  } else {                       # ** square
+    im.sq <- im[1:nr, 1:nc]      # nr == nc so parameter index matrix is only square
+  }
+
+  # Handel the square part of the parameter index matrix im.sq
+  nsq   <- nrow(im.sq) # square part dimension
+  if(iijj.eqQ == T){
+    # if diagonal elements equal ii == jj desired
+    count <- pmax.idx
+    for(i in 1:nsq){
+      for(j in 1:nsq){
+        if(i>j) {
+          im.sq[i,j] <- count
+          count <- count + 1
+        }
+      }
+    }
+    # Adjust the last row so bottom left corner is 0 and re-index:
+    im.sq[nsq,]  <- im.sq[nsq,] - 1
+    #im.sq[nr,1] <- 0
+    im.sq       <- im.sq + 1
+    im.sq[nsq,1] <- 0
+    diag(im.sq) <- pmax.idx
+
+  } else {
+    # if diagonal elements not equal ii != jj desired
+    count <- pmax.idx
+    for(i in 1:nsq){
+      for(j in 1:nsq){
+        if(i>=j) {
+          im.sq[i,j] <- count
+          count      <- count + 1
+        }
+      }
+    }
+    im.sq[nsq,]  <- im.sq[nsq,] - 1
+    im.sq[nsq,1] <- 0
+
+  }
+
+  # Symmetrize here before handeling complenent:
+  im.sq[upper.tri(im.sq)] <- t(im.sq)[upper.tri(im.sq)]
+  #print(im.sq)
+
+  # Handel the rectangular complement im.cp
+  if(nr < nc) {
+    count <- max(im.sq) + 1
+    im.cp <- matrix( count:(count + prod(dim(im.cp)) - 1), nrow(im.cp), ncol(im.cp), byrow=T ) # Use row-major order
+    im    <- cbind(im.sq,im.cp)
+  } else if(nr > nc) {
+    count <- max(im.sq) + 1
+    im.cp <- matrix( count:(count + prod(dim(im.cp)) - 1), nrow(im.cp), ncol(im.cp), byrow=T ) # Use row-major order
+    im    <- rbind(im.sq,im.cp)
+  } else {
+    im <- im.sq # parameter matrix is square so no complement
+  }
+
+  return(im)
 
 }
