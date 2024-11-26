@@ -46,22 +46,21 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
   colnames(node.name.tab) <- c("idx", "name")
   new.crf$node.name.tab   <- node.name.tab
 
-  # If only 1 number is input to specify the number of states per node. Assumes all nodes have the same number of states.
-  if(length(num.states) == 1) {
+  # Node state space:
+  if(length(num.states) == 1) {                        # If only 1 number is input to specify the number of states per node, assumes all nodes have that number of states.
     num.states.loc <- rep(num.states, new.crf$n.nodes) # Should be the same as new.crf$n.states
-  } else {
-    num.states.loc <- num.states                       # Should be the same as new.crf$n.states
+    #print(new.crf$n.states)
+  } else {                                             # Variable number of states per node
+    num.states.loc <- num.states                       # Should also be the same as new.crf$n.states
+    #print(new.crf$n.states)
   }
 
-  # Alternative list storage for node info. Don't have to hold on to all the NAs for node state spaces of different sizes.
+  # Alternative list storage for node info. This version doesn't have to hold on to all the NAs for node state spaces of different sizes.
   new.crf$node.pot.list <- rep(list(NULL), new.crf$n.nodes)
   new.crf$node.par.list <- rep(list(NULL), new.crf$n.nodes)
 
-  # Parameterization types:
-  if(parameterization.typ == "general") {
-
-    # General parameterization:
-    # Node parameters:
+  # Node parameterization types:
+  if(parameterization.typ %in% c("general", "standard", "flexible")) {
     # Parameters per node = num node states - 1
     param.count <- 1
     for(i in 1:new.crf$n.nodes){
@@ -83,6 +82,15 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
 
     }
 
+  } else {
+    stop("No other node parameterization types are availible at this point.")
+  }
+
+
+  # Edge parameterization types:
+  if(parameterization.typ == "general") {
+
+    # General edge parameterization:
     # Parameters per edge = num rows * num cols - 1
     for(i in 1:new.crf$n.edges){
       #print(paste("Edge#:", i))
@@ -94,6 +102,18 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
       new.crf$edge.par[[i]][,,1]                    <- this.edge.par.mat
     }
 
+  } else if(parameterization.typ %in% c("standard", "flexible")) {
+
+    param.count <- max(new.crf$node.par, na.rm = T) # Get current number of node parameters as reference to start
+    for(i in 1:new.crf$n.edges){
+      edge.par.i.loc             <- new.crf$edge.par[[i]][,,1]
+      edge.par.i.loc             <- edge.param.indices.helper(nr=nrow(edge.par.i.loc), nc=ncol(edge.par.i.loc), pmax.idx = param.count+1, diagonal.elements=parameterization.typ)
+      param.count                <- max(edge.par.i.loc)
+      new.crf$edge.par[[i]][,,1] <- edge.par.i.loc
+    }
+
+  } else {
+    stop("No other node parameterization types are availible at this point.")
   }
 
 
@@ -148,23 +168,32 @@ dump.crf <- function(crf){
 # Rectangular edge parameterization matrices (i.e. when the node state spaces
 # between the nodes are different sizes) are indexed symmetrically in the (top-left corner)
 # square part and sequentially, in row-major order, in the complement.
-edge.param.indices.helper <- function(nr, nc, pmax.idx, iijj.eqQ=T) {
+# @export
+edge.param.indices.helper <- function(nr, nc, pmax.idx, diagonal.elements="standard") {
 
   im    <- array(-1, c(nr,nc))   # parameter index matrix
 
   if(nr < nc) {                  # ** rectangular: more columns than rows
     im.sq <- im[1:nr, 1:nr]      # square part
     im.cp <- im[1:nr, (nr+1):nc] # complement
+    # If complement is just a column:
+    if( is.null(dim(im.cp)) ){
+      dim(im.cp) <- c(length(im.cp), 1) # give the vector a dimensional argument
+    }
   } else if(nr > nc) {           # ** rectangular: more rows than columns
     im.sq <- im[1:nc, 1:nc]      # square part
     im.cp <- im[(nc+1):nr, 1:nc] # complement
+    # If complement is just a row:
+    if( is.null(dim(im.cp)) ){
+      dim(im.cp) <- c(1, length(im.cp)) # give the vector a dimensional argument
+    }
   } else {                       # ** square
     im.sq <- im[1:nr, 1:nc]      # nr == nc so parameter index matrix is only square
   }
 
   # Handel the square part of the parameter index matrix im.sq
   nsq   <- nrow(im.sq) # square part dimension
-  if(iijj.eqQ == T){
+  if(diagonal.elements == "standard"){
     # if diagonal elements equal ii == jj desired
     count <- pmax.idx
     for(i in 1:nsq){
@@ -182,7 +211,7 @@ edge.param.indices.helper <- function(nr, nc, pmax.idx, iijj.eqQ=T) {
     im.sq[nsq,1] <- 0
     diag(im.sq) <- pmax.idx
 
-  } else {
+  } else if(diagonal.elements == "flexible"){
     # if diagonal elements not equal ii != jj desired
     count <- pmax.idx
     for(i in 1:nsq){
@@ -196,6 +225,8 @@ edge.param.indices.helper <- function(nr, nc, pmax.idx, iijj.eqQ=T) {
     im.sq[nsq,]  <- im.sq[nsq,] - 1
     im.sq[nsq,1] <- 0
 
+  } else {
+    stop("diagonal.elements must be standard or flexible")
   }
 
   # Symmetrize here before handeling complenent:
@@ -203,11 +234,16 @@ edge.param.indices.helper <- function(nr, nc, pmax.idx, iijj.eqQ=T) {
   #print(im.sq)
 
   # Handel the rectangular complement im.cp
+  #print(count)
+  #print(im.cp)
   if(nr < nc) {
     count <- max(im.sq) + 1
     im.cp <- matrix( count:(count + prod(dim(im.cp)) - 1), nrow(im.cp), ncol(im.cp), byrow=T ) # Use row-major order
     im    <- cbind(im.sq,im.cp)
   } else if(nr > nc) {
+    # print("HERE!")
+    # print(dim(im.cp))
+    # print(class(im.cp))
     count <- max(im.sq) + 1
     im.cp <- matrix( count:(count + prod(dim(im.cp)) - 1), nrow(im.cp), ncol(im.cp), byrow=T ) # Use row-major order
     im    <- rbind(im.sq,im.cp)
