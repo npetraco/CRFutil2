@@ -39,8 +39,9 @@ Instantiate an empty field. Should work for Ising and Potts-like models.
 }
 \details{
 Instantiates an empty field. Should work for Ising and Potts-type models under all
-parameterizations. Potentials are not filled in however. Use XXXX to generate random potentials
-or add in your own later.
+parameterizations. Potentials are not filled in however. Use insert.params.and.pots() plunck in
+generated random parameters/potentials. Or you can add in your own later. NOTE: this assumes only
+one and two-body potentials (n.nf=1, n.ef=1, cf. make.features()).
 }
 \examples{
 XXXX

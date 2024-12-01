@@ -12,8 +12,9 @@
 #' @param plotQ XX
 #'
 #' @details Instantiates an empty field. Should work for Ising and Potts-type models under all
-#' parameterizations. Potentials are not filled in however. Use XXXX to generate random potentials
-#' or add in your own later.
+#' parameterizations. Potentials are not filled in however. Use insert.params.and.pots() plunck in
+#' generated random parameters/potentials. Or you can add in your own later. NOTE: this assumes only
+#' one and two-body potentials (n.nf=1, n.ef=1, cf. make.features()).
 #'
 #' @return A crf object.
 #'
@@ -116,6 +117,19 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
     stop("No other node parameterization types are availible at this point.")
   }
 
+  # Gather all unique parameter indices. Drop any 0s as they are just placeholders:
+  par.idxs <- sort(unique(unlist(c(new.crf$node.par.list, new.crf$edge.par))))[-1]
+  num.par  <- max(par.idxs)
+
+  par.idxs.contiguousQ <- ((1:num.par) == par.idxs) # Check that the parameter indices are contiuous and that we didn't skip any
+  if( sum(par.idxs.contiguousQ) != num.par ){
+    param.idx.err.mat           <- cbind(1:num.par, par.idxs)
+    colnames(param.idx.err.mat) <- c("number", "parameter index")
+    stop("Something isn't right. Parameter indices are not contiguous.......")
+  }
+  new.crf$num.par       <- num.par
+  new.crf$node.par.idxs <- sort(unique(unlist( new.crf$node.par.list )))[-1]
+  new.crf$edge.par.idxs <- sort(unique(unlist( new.crf$edge.par )))[-1]
 
   # Plot graph
   if(plotQ==TRUE){
@@ -127,6 +141,56 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
   }
 
   return(new.crf)
+
+}
+
+
+#' Input parameter vector and potentials.
+#'
+#'
+#' The function will XXXX
+#'
+#' @param XX The XX
+#' @return The function will XX
+#'
+#'
+#' @export
+insert.params.and.pots <- function(crf, params.samp) {
+
+  # Insert node potentials
+  for(i in 1:crf$n.nodes){
+    node.par.idx <- crf$node.par.list[[i]]
+    node.pot     <- crf$node.pot.list[[i]]
+    for(j in 1:length(node.par.idx)){
+      if(node.par.idx[j] != 0){
+        node.pot[j] <- exp( -params.samp[ node.par.idx[j] ]) # pot = exp(-param)
+      }
+    }
+    crf$node.pot.list[[i]]             <- node.pot
+    crf$node.pot[i,1:length(node.pot)] <- node.pot
+  }
+
+  # Insert edge potentials
+  for(i in 1:crf$n.edges){
+    edge.par <- crf$edge.par[[i]][,,1]
+    edge.pot <- crf$edge.pot[[i]]
+
+    for(j in 1:nrow(edge.par)) {
+      for(k in 1:ncol(edge.par)) {
+        if(edge.par[j,k] !=0) {
+          edge.pot[j,k] <- exp( -params.samp[ edge.par[j,k] ] ) # pot = exp(-param)
+        }
+      }
+    }
+
+    crf$edge.pot[[i]] <- edge.pot
+
+  }
+
+  # Insert parameters
+  crf$par <- params.samp
+
+  print("Parameters and potentials inserted into crf object.")
 
 }
 

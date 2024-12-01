@@ -40,3 +40,4 @@ mdl2 <- make.empty.field(
   edge.par=NULL,
   plotQ=T)
 dump.crf(mdl2)
+

@@ -5,25 +5,6 @@ https://cran.r-project.org/doc/manuals/r-release/R-ints.html#SEXPTYPEs
 
 TODO:
 
-DONE  *function to open implementation files
-
-ONGOING  *Don't forget to keep adding in files for Notes links to R and Rcpp implementation/example
-          files for package
-
-DONE  *Header files Rcpp Attributes??
-  cf. utils.cpp, utils.h
-
-DONE-ish Fast-ish/Efficient %in% function in Rcpp or C++
-  cf. compare_element, inQ in util.cpp
-
-DONE-ish Passing functions as arguements. Pointers?? XPtr??
-  cf. Eone_C. Use Function class
-
-DONE-ish tools to profile Rcpp code: memory usage, copies, chunk speeds?? Why is ff1_C soooo slow??!!
-  Try RcppClock. gperftools not working right on Mac OSX..... UGH.....
-  Can we do anything with Intel VTune?? -No I don't think so at this point (11-18-24).
-
-
 * IMPORTANT DESIGN CHANGE: Internally node and node state naming should be consecutive integers
 ONLY. Facilites/functions should be added to translate node and node state names between consecutive
 integers and user designated names. If no names are given, default consecutive integer names should
@@ -32,3 +13,27 @@ be used and no translation is necessary to instantiate.
 * Maybe re-implement Rcpp feature functions as a unified object with different implementations for the feature functions (i.e. member functions). Send in optional arguements (dots) as a List. Null lists should ok, but don't do Nullable.
 
 * Make variable names in ff0 consistent with ffX_C variable names
+
+* Add in tradional Ising parameterizations to make.empty.field()
+
+* Implent Rcpp energy functions to not need ff functions passed in.
+
+* Worthwhile adding Latex generating functions for node and edge potentials??
+
+DONE  * function to open implementation files
+
+ONGOING  * Don't forget to keep adding in files for Notes links to R and Rcpp implementation/example
+           files for package
+
+DONE  * Header files Rcpp Attributes??
+  cf. utils.cpp, utils.h
+
+DONE-ish * Fast-ish/Efficient %in% function in Rcpp or C++
+  cf. compare_element(), inQ() in util.cpp
+
+DONE-ish * Passing functions as arguements. Pointers?? XPtr??
+  cf. Eone_C. Use Function class
+
+DONE-ish * tools to profile Rcpp code: memory usage, copies, chunk speeds?? Why is ff1_C soooo slow??!!
+  Try RcppClock. gperftools not working right on Mac OSX..... UGH.....
+  Can we do anything with Intel VTune?? -No I don't think so at this point (11-18-24).
