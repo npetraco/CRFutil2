@@ -25,6 +25,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// Eone_e_C
+double Eone_e_C(int yA, NumericVector tA);
+RcppExport SEXP _CRFutil2_Eone_e_C(SEXP yASEXP, SEXP tASEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type yA(yASEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type tA(tASEXP);
+    rcpp_result_gen = Rcpp::wrap(Eone_e_C(yA, tA));
+    return rcpp_result_gen;
+END_RCPP
+}
 // Etwo_C
 double Etwo_C(RObject yA, RObject yB, arma::mat wAB, Function ff, Nullable<List> dots);
 RcppExport SEXP _CRFutil2_Etwo_C(SEXP yASEXP, SEXP yBSEXP, SEXP wABSEXP, SEXP ffSEXP, SEXP dotsSEXP) {
@@ -37,6 +49,33 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Function >::type ff(ffSEXP);
     Rcpp::traits::input_parameter< Nullable<List> >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(Etwo_C(yA, yB, wAB, ff, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
+// Etwo_e_C
+double Etwo_e_C(int yA, int yB, NumericMatrix wAB);
+RcppExport SEXP _CRFutil2_Etwo_e_C(SEXP yASEXP, SEXP yBSEXP, SEXP wABSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type yA(yASEXP);
+    Rcpp::traits::input_parameter< int >::type yB(yBSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type wAB(wABSEXP);
+    rcpp_result_gen = Rcpp::wrap(Etwo_e_C(yA, yB, wAB));
+    return rcpp_result_gen;
+END_RCPP
+}
+// config_energy_e_C
+double config_energy_e_C(IntegerVector config, IntegerMatrix edges_mat, List one_nlp, List two_nlp);
+RcppExport SEXP _CRFutil2_config_energy_e_C(SEXP configSEXP, SEXP edges_matSEXP, SEXP one_nlpSEXP, SEXP two_nlpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type config(configSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type edges_mat(edges_matSEXP);
+    Rcpp::traits::input_parameter< List >::type one_nlp(one_nlpSEXP);
+    Rcpp::traits::input_parameter< List >::type two_nlp(two_nlpSEXP);
+    rcpp_result_gen = Rcpp::wrap(config_energy_e_C(config, edges_mat, one_nlp, two_nlp));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -177,7 +216,10 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_CRFutil2_Eone_C", (DL_FUNC) &_CRFutil2_Eone_C, 4},
+    {"_CRFutil2_Eone_e_C", (DL_FUNC) &_CRFutil2_Eone_e_C, 2},
     {"_CRFutil2_Etwo_C", (DL_FUNC) &_CRFutil2_Etwo_C, 5},
+    {"_CRFutil2_Etwo_e_C", (DL_FUNC) &_CRFutil2_Etwo_e_C, 3},
+    {"_CRFutil2_config_energy_e_C", (DL_FUNC) &_CRFutil2_config_energy_e_C, 4},
     {"_CRFutil2_ff0_C", (DL_FUNC) &_CRFutil2_ff0_C, 4},
     {"_CRFutil2_ff01_C", (DL_FUNC) &_CRFutil2_ff01_C, 4},
     {"_CRFutil2_ff1_C", (DL_FUNC) &_CRFutil2_ff1_C, 2},

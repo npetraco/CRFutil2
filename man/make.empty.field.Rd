@@ -8,6 +8,7 @@ make.empty.field(
   graph.eq = NULL,
   adj.mat = NULL,
   num.states = 2,
+  state.names = NULL,
   parameterization.typ = "standard",
   node.par = NULL,
   edge.par = NULL,

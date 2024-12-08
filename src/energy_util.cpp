@@ -37,6 +37,24 @@ double Eone_C(RObject yA, arma::vec tA, Function ff, Nullable<List> dots = R_Nil
 }
 
 
+//' @title       Efficient one-body (node) energy function
+//' @description Efficient one-body (node) energy function. No feature function required
+//'
+//' @param yA  a node state index
+//' @param tA  tau vector
+//'
+//' @details One-body (node) energy function
+//'
+//' @return One-body (node) energy.
+//'
+//' @examples
+ //'
+ // [[Rcpp::export]]
+ double Eone_e_C(int yA, NumericVector tA) {
+   return(tA[yA-1]);
+ }
+
+
 //' @title       Two-body (edge) energy function
 //' @description Two-body (edge) energy function
 //'
@@ -80,4 +98,60 @@ double Etwo_C(RObject yA, RObject yB, arma::mat wAB, Function ff, Nullable<List>
 }
 
 
+//' @title       Efficient two-body (edge) energy function
+//' @description Efficient two-body (edge) energy function. No feature function required.
+//'
+//' @param yA   node A state index.
+//' @param yB   node B state index.
+//' @param wAB  omega matrix
+//'
+// [[Rcpp::export]]
+ double Etwo_e_C(int yA, int yB, NumericMatrix wAB) {
+   return( wAB(yA-1, yB-1) );
+ }
 
+
+//' @title       Efficient configuration energy function
+//' @description Efficient configuration energy function. Uses above efficient one and two
+//' body energy functions. No feature function required.
+//'
+//' @param yA   node A state index.
+//' @param yB   node B state index.
+//' @param wAB  omega matrix
+//'
+// [[Rcpp::export]]
+double config_energy_e_C(IntegerVector config, IntegerMatrix edges_mat, List one_nlp, List two_nlp) {
+
+  int num_nodes = config.length();
+  int num_edges = edges_mat.nrow();
+  //Rcout << num_edges << endl;
+
+  // Sum One-body energies (log node-potentials)
+  double e_one = 0.0;
+  for(int i = 1;  i<= num_nodes; i++){
+    //Rcout << Eone_e_C(config[i], one_nlp[i]) << endl;
+    e_one += Eone_e_C(config[i-1], one_nlp[i-1]);
+    //Rcout << e_one << endl;
+  }
+
+  // Sum Two-body energies (log edge-potentials)
+  double e_two = 0.0;
+  for(int i = 1; i<=num_edges; i++){
+    //Rcout << "Edge: " << i << endl;
+    //Rcout << "A:" << edges_mat(i-1,0) << " spin: " << config[edges_mat(i-1,0) - 1] << endl;
+    //Rcout << "B:" << edges_mat(i-1,1) << " spin: " << config[edges_mat(i-1,1) - 1] << endl;
+
+    //arma::mat ww = two_nlp[i-1];
+    //int ii = config[edges_mat(i-1,0) - 1];
+    //int jj = config[edges_mat(i-1,1) - 1];
+    //Rcout << ww(ii, jj) << endl;
+    //Rcout << as<arma::mat>(two_nlp[i-1]) << endl;
+
+    //Rcout << Etwo_e_C(config[edges_mat(i-1,0) - 1], config[edges_mat(i-1,1) - 1], two_nlp[i-1]) << endl;
+    //Rcout << "----" << endl;
+    e_two += Etwo_e_C(config[edges_mat(i-1,0) - 1], config[edges_mat(i-1,1) -1], two_nlp[i-1]);
+  }
+
+  return(e_one + e_two);
+
+ }

@@ -29,6 +29,27 @@ Eone  <- function(yA, tA, ff, ...){
 }
 
 
+#' @title       Efficient one-body (node) energy function
+#' @description Efficient one-body (node) energy function
+#'
+#' @param yA  a node state
+#' @param tA  tau vector
+#'
+#' @details Efficient one-body (node) energy function. No feature function (ff) to pass in. Just does
+#' the energy calculation as a look-up and not a matrix multiply. Assumes state names are just INDICES
+#' (i.e. yA = 1, 2, 3, ......) and all state weights are 1.
+#'
+#' @return One-body (node) energy.
+#'
+#' @examples XXXX
+#'
+#' @export
+Eone.e  <- function(yA, tA){
+  e.one <- tA[yA]
+  return(e.one)
+}
+
+
 #' @title       Two-body (edge) energy function
 #' @description Two-body (edge) energy function
 #'
@@ -71,6 +92,28 @@ Etwo  <- function(yA, yB, wAB, ff, ...){
 }
 
 
+#' @title       Efficient two-body (edge) energy function
+#' @description Efficient two-body (edge) energy function
+#'
+#' @param yA   node A state
+#' @param yB   node B state
+#' @param wAB  omega matrix
+#'
+#' @details Efficient two-body (edge) energy function. No feature function (ff) to pass in. Just does
+#' the energy calculation as a look-up and not a matrix multiply. Assumes state names are just INDICES
+#' (i.e. yA , yB= 1, 2, 3, ......) and all state weights are 1.
+#'
+#' @return Two-body (edge) energy.
+#'
+#' @examples XXXX
+#'
+#' @export
+Etwo.e  <- function(yA, yB, wAB){
+  e.two <- wAB[yA,yB]
+  return(e.two)
+}
+
+
 #' @title       Energy function for a configuration of states
 #' @description Compute total energy of a configuration. Assumes node/edge energies are both entered as lists.
 #'
@@ -109,3 +152,45 @@ config.energy <- function(config, edges.mat, one.nlp, two.nlp, ff, ...) {
   return(ener)
 }
 
+
+#' @title       Efficient energy function for a configuration of states
+#' @description Compute total energy of a configuration. Uses efficient one and two body energy functions.
+#' Assumes node/edge energies are both entered as lists.
+#'
+#' @param config    a node configuration (configuration state) vector
+#' @param edges.mat matrix of connected node edges
+#' @param two.lgp   negative-log node potentials (one-body "energies"), entered as a list
+#' @param two.lgp   negative-log edge potentials (two-body "energies"), entered as a list
+#'
+#' @details Uses efficient one and two body enetgy functions. No need to pass in feature function.
+#' Assumes node/edge energies are both entered as lists.
+#'
+#' @return The function will XX
+#'
+#' @export
+config.energy.e <- function(config, edges.mat, one.nlp, two.nlp) {
+
+  config.loc <- as.vector(as.matrix(config)) # Guarantee that the config is a vector. Other data types, particularly dataframes, can cause misinterpretation issues.
+  num.nodes  <- length(config.loc)
+  num.edges  <- nrow(edges.mat)
+
+  # Sum One-body energies (log node-potentials)
+  e.one <- 0
+  for(i in 1:num.nodes){
+    #print(Eone.e(config.loc[i], one.nlp[[i]]))
+    e.one <- e.one + Eone.e(config.loc[i], one.nlp[[i]])
+  }
+
+  # Sum Two-body energies (log edge-potentials)
+  e.two <- 0
+  for(i in 1:num.edges){
+    #print(Etwo.e(config.loc[edges.mat[i,1]], config.loc[edges.mat[i,2]], two.nlp[[i]]))
+    e.two <- e.two + Etwo.e(config.loc[edges.mat[i,1]], config.loc[edges.mat[i,2]], two.nlp[[i]])
+  }
+
+  #print("-------------")
+
+  ener <- as.numeric(e.one + e.two)
+
+  return(ener)
+}

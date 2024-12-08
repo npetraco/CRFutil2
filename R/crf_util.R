@@ -21,7 +21,7 @@
 #' @examples XXXX
 #'
 #' @export
-make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parameterization.typ="standard", node.par=NULL, edge.par=NULL, plotQ=FALSE) {
+make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, state.names = NULL, parameterization.typ="standard", node.par=NULL, edge.par=NULL, plotQ=FALSE) {
 
   if(is.null(graph.eq) & is.null(adj.mat)){
     stop("Specify a model!")
@@ -50,11 +50,32 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
   # Node state space:
   if(length(num.states) == 1) {                        # If only 1 number is input to specify the number of states per node, assumes all nodes have that number of states.
     num.states.loc <- rep(num.states, new.crf$n.nodes) # Should be the same as new.crf$n.states
-    #print(new.crf$n.states)
   } else {                                             # Variable number of states per node
     num.states.loc <- num.states                       # Should also be the same as new.crf$n.states
-    #print(new.crf$n.states)
   }
+
+  # State names for each node:
+  node.state.names <- rep(list(NULL), new.crf$n.nodes)
+  if(is.null(state.names)){
+    for(i in 1:new.crf$n.nodes){
+      node.state.names[[i]] <- 1:new.crf$n.states[i] # If no node names are given, just make them contiguous positive integers
+    }
+  } else {
+    if(class(state.names) != "list") {
+      stop("state.names must be NULL or a list")
+    }
+    if(length(state.names) != new.crf$n.nodes) {
+      stop("Length of state.names list must be equal to the number of nodes!")
+    }
+
+    for(i in 1:new.crf$n.nodes){
+      node.state.names[[i]] <- state.names[[i]]
+    }
+
+  }
+  names(node.state.names)  <- new.crf$node.name.tab$name
+  new.crf$node.state.names <- node.state.names
+
 
   # Alternative list storage for node info. This version doesn't have to hold on to all the NAs for node state spaces of different sizes.
   new.crf$node.pot.list <- rep(list(NULL), new.crf$n.nodes)
@@ -117,6 +138,10 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
     stop("No other node parameterization types are availible at this point.")
   }
 
+
+  # XXXXX PUT ISING MODELS HERE XXXXXXX
+
+
   # Gather all unique parameter indices. Drop any 0s as they are just placeholders:
   par.idxs <- sort(unique(unlist(c(new.crf$node.par.list, new.crf$edge.par))))[-1]
   num.par  <- max(par.idxs)
@@ -131,9 +156,10 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, parame
   new.crf$node.par.idxs <- sort(unique(unlist( new.crf$node.par.list )))[-1]
   new.crf$edge.par.idxs <- sort(unique(unlist( new.crf$edge.par )))[-1]
 
+
   # Plot graph
   if(plotQ==TRUE){
-    new.crf.gp <- graph_from_adjacency_matrix(adjm, mode = "undirected")
+    new.crf.gp <- graph_from_adjacency_matrix(new.crf$adj.mat, mode = "undirected")
     if(!is.null(dev.list())){
       dev.off()
     }
@@ -219,6 +245,52 @@ dump.crf <- function(crf){
 
 }
 
+
+#' Decorate initalized mrf-object to make potentials compatible with gRbase
+#'
+#' Decorate initalized mrf-object to make potentials compatible with gRbase
+#'
+#' The function will XXXX
+#'
+#' @param XX The XX
+#' @return The function will XX
+#'
+#'
+#' @export
+make.gRbase.potentials <- function(crf){
+
+  # Decorate node potentials:
+  gRbase.node.potentials      <- rep(list(NULL),crf$n.nodes) #node Psi's
+  gRbase.node.nlog.potentials <- rep(list(NULL),crf$n.nodes) #node psi's (one-body energies)
+  for(i in 1:crf$n.nodes){
+    node.levs                        <- list(crf$node.state.names[[i]])
+    names(node.levs)                 <- crf$node.name.tab$name[i]
+    gRbase.node.potentials[[i]]      <- tabNew(crf$node.name.tab$name[i], levels=node.levs, values=crf$node.pot.list[[i]])
+    gRbase.node.nlog.potentials[[i]] <- -log(gRbase.node.potentials[[i]])
+  }
+
+  # Decorate edge potentials:
+  gRbase.edge.potentials      <- rep(list(NULL),crf$n.edges) # edge Psi's
+  gRbase.edge.nlog.potentials <- rep(list(NULL),crf$n.edges) # edge psi's (two-body energies)
+  for(i in 1:crf$n.edges){
+    e1                               <- crf$node.name.tab$name[crf$edges[i,1]]
+    e2                               <- crf$node.name.tab$name[crf$edges[i,2]]
+    node.levs                        <- list(crf$node.state.names[[crf$edges[i,1]]],
+                                             crf$node.state.names[[crf$edges[i,2]]])
+    names(node.levs)                 <- c(e1,e2)
+    gRbase.edge.potentials[[i]]      <- tabNew(c(e1,e2), levels=node.levs, values=as.numeric(crf$edge.pot[[i]]))
+    gRbase.edge.nlog.potentials[[i]] <- -log(gRbase.edge.potentials[[i]])
+  }
+
+  potential.info        <- list(gRbase.node.potentials,
+                                gRbase.edge.potentials,
+                                gRbase.node.nlog.potentials,
+                                gRbase.edge.nlog.potentials)
+  names(potential.info) <- c("node.potentials","edge.potentials","node.energies","edge.energies")
+
+  return(potential.info)
+
+}
 
 #---------------------------------------------------------------------------
 # Internal auxiliary stuff to help out above for \em{slightly} improved readability
