@@ -2,16 +2,25 @@
 % Please edit documentation in R/crf_util.R
 \name{insert.params.and.pots}
 \alias{insert.params.and.pots}
-\title{Input parameter vector and potentials.}
+\title{Input a parameter vector into parameter and potential matrices and vectors of crf object}
 \usage{
 insert.params.and.pots(crf, params.samp)
 }
 \arguments{
-\item{XX}{The XX}
+\item{crf}{a crf object}
+
+\item{param.samp}{a sample of parameter space or parameter vector}
 }
 \value{
-The function will XX
+Nothing.
 }
 \description{
-The function will XXXX
+XX
+}
+\details{
+Input a parameter vector into parameter and potential matrices of crf object
+}
+\examples{
+XXXX
+
 }

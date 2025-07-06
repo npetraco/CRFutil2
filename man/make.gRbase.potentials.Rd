@@ -2,19 +2,24 @@
 % Please edit documentation in R/crf_util.R
 \name{make.gRbase.potentials}
 \alias{make.gRbase.potentials}
-\title{Decorate initalized mrf-object to make potentials compatible with gRbase}
+\title{Decorate initalized potentials in crf object to be compatible with gRbase}
 \usage{
 make.gRbase.potentials(crf)
 }
 \arguments{
-\item{XX}{The XX}
+\item{crf}{a crf object}
 }
 \value{
-The function will XX
+A list with the decorated potentials and their corresponding energies.
 }
 \description{
-Decorate initalized mrf-object to make potentials compatible with gRbase
+XX
 }
 \details{
-The function will XXXX
+Decorates the node and edge potentials with naming conventions useful
+with or required by gRbase functionality.
+}
+\examples{
+XXXX
+
 }

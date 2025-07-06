@@ -291,7 +291,7 @@ compare_element <- function(element, vector) {
 #' @description Check if element is in a vector, independent of data type.
 #'
 #' @param element Something to compare to. Can be any single element RObject
-#' @param vector A vector of things to compare element to. Can be any types.
+#' @param vector  A vector of things to compare element to. Can be any types.
 #'
 #' @details I'm tired of writing this out longhand in the codes so writing a wrapper.
 #'
@@ -301,5 +301,21 @@ compare_element <- function(element, vector) {
 #'
 inQ <- function(element, vector) {
     .Call(`_CRFutil2_inQ`, element, vector)
+}
+
+#' @title row.match in C
+#' @description Looks for matching rows in a matrix.
+#'
+#' @param x     a row vector
+#' @param table a matrix to be searched for rows matching x
+#'
+#' @details Much faster than in R and we don't want to pass in R functions anyway.
+#'
+#' @return Indices of matching rows
+#'
+#' @examples XXXX
+#'
+row_match <- function(x, table) {
+    .Call(`_CRFutil2_row_match`, x, table)
 }
 

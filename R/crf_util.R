@@ -171,14 +171,17 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, state.
 }
 
 
-#' Input parameter vector and potentials.
+#' @title       Input a parameter vector into parameter and potential matrices and vectors of crf object
+#' @description XX
 #'
+#' @param crf a crf object
+#' @param param.samp a sample of parameter space or parameter vector
 #'
-#' The function will XXXX
+#' @details Input a parameter vector into parameter and potential matrices of crf object
 #'
-#' @param XX The XX
-#' @return The function will XX
+#' @return Nothing.
 #'
+#' @examples XXXX
 #'
 #' @export
 insert.params.and.pots <- function(crf, params.samp) {
@@ -246,15 +249,17 @@ dump.crf <- function(crf){
 }
 
 
-#' Decorate initalized mrf-object to make potentials compatible with gRbase
+#' @title  Decorate initalized potentials in crf object to be compatible with gRbase
+#' @description XX
 #'
-#' Decorate initalized mrf-object to make potentials compatible with gRbase
+#' @param crf a crf object
 #'
-#' The function will XXXX
+#' @details Decorates the node and edge potentials with naming conventions useful
+#' with or required by gRbase functionality.
 #'
-#' @param XX The XX
-#' @return The function will XX
+#' @return A list with the decorated potentials and their corresponding energies.
 #'
+#' @examples XXXX
 #'
 #' @export
 make.gRbase.potentials <- function(crf){
@@ -291,6 +296,7 @@ make.gRbase.potentials <- function(crf){
   return(potential.info)
 
 }
+
 
 #---------------------------------------------------------------------------
 # Internal auxiliary stuff to help out above for \em{slightly} improved readability
@@ -342,10 +348,9 @@ edge.param.indices.helper <- function(nr, nc, pmax.idx, diagonal.elements="stand
     }
     # Adjust the last row so bottom left corner is 0 and re-index:
     im.sq[nsq,]  <- im.sq[nsq,] - 1
-    #im.sq[nr,1] <- 0
-    im.sq       <- im.sq + 1
+    im.sq        <- im.sq + 1
     im.sq[nsq,1] <- 0
-    diag(im.sq) <- pmax.idx
+    diag(im.sq)  <- pmax.idx
 
   } else if(diagonal.elements == "flexible"){
     # if diagonal elements not equal ii != jj desired
@@ -365,21 +370,15 @@ edge.param.indices.helper <- function(nr, nc, pmax.idx, diagonal.elements="stand
     stop("diagonal.elements must be standard or flexible")
   }
 
-  # Symmetrize here before handeling complenent:
+  # Symmetrize here before handling complement:
   im.sq[upper.tri(im.sq)] <- t(im.sq)[upper.tri(im.sq)]
-  #print(im.sq)
 
   # Handel the rectangular complement im.cp
-  #print(count)
-  #print(im.cp)
   if(nr < nc) {
     count <- max(im.sq) + 1
     im.cp <- matrix( count:(count + prod(dim(im.cp)) - 1), nrow(im.cp), ncol(im.cp), byrow=T ) # Use row-major order
     im    <- cbind(im.sq,im.cp)
   } else if(nr > nc) {
-    # print("HERE!")
-    # print(dim(im.cp))
-    # print(class(im.cp))
     count <- max(im.sq) + 1
     im.cp <- matrix( count:(count + prod(dim(im.cp)) - 1), nrow(im.cp), ncol(im.cp), byrow=T ) # Use row-major order
     im    <- rbind(im.sq,im.cp)

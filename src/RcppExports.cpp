@@ -213,6 +213,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// row_match
+arma::uvec row_match(arma::Mat<int> x, arma::Mat<int> table);
+RcppExport SEXP _CRFutil2_row_match(SEXP xSEXP, SEXP tableSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::Mat<int> >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::Mat<int> >::type table(tableSEXP);
+    rcpp_result_gen = Rcpp::wrap(row_match(x, table));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_CRFutil2_Eone_C", (DL_FUNC) &_CRFutil2_Eone_C, 4},
@@ -231,6 +243,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_CRFutil2_rcpp_prototypef", (DL_FUNC) &_CRFutil2_rcpp_prototypef, 0},
     {"_CRFutil2_compare_element", (DL_FUNC) &_CRFutil2_compare_element, 2},
     {"_CRFutil2_inQ", (DL_FUNC) &_CRFutil2_inQ, 2},
+    {"_CRFutil2_row_match", (DL_FUNC) &_CRFutil2_row_match, 2},
     {NULL, NULL, 0}
 };
 
