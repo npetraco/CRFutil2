@@ -4,10 +4,10 @@
 \alias{plot.marginal.sample}
 \title{Plot marginal sample}
 \usage{
-\method{plot}{marginal.sample}(samples, ordered.state.names = NULL)
+\method{plot}{marginal.sample}(samples, crf)
 }
 \arguments{
-\item{samples}{The samples}
+\item{samples}{a crf object}
 }
 \value{
 Nothing.
