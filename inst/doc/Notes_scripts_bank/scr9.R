@@ -46,7 +46,7 @@ ener.func <- function(config) {
 
 # All configuration energies:
 config.energies <- sapply(1:nrow(config.mat), function(xx){ener.func(config.mat[xx,])})
-prodPots        <- exp(config.energies)
+prodPots        <- exp(-config.energies)
 Z               <- sum(prodPots)
 Prs             <-prodPots/Z
 

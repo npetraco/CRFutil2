@@ -32,8 +32,6 @@ plot.marginal.sample <- function(samples, crf) {
     print("===============================")
     stop("State names in sample must be the same as state names in crf object!")
   }
-  #print( sort(unique(as.vector(samples))) == sort(all.state.names.vec) )
-  #print(F %in% sort(unique(as.vector(samples))) == sort(all.state.names.vec))
 
   tabl <- array(0, dim = c(length(all.state.names.vec), num.nodes) )
 

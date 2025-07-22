@@ -47,6 +47,17 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, state.
   colnames(node.name.tab) <- c("idx", "name")
   new.crf$node.name.tab   <- node.name.tab
 
+  # Edge translation table:
+  new.crf$edge.name.tab <- data.frame(
+    1:new.crf$n.edges,                            # edge index
+    new.crf$edges,                                # node indices of edge
+    cbind(
+      new.crf$node.name.tab[new.crf$edges[,1],2], # node names of edge
+      new.crf$node.name.tab[new.crf$edges[,2],2]
+    )
+  )
+  colnames(new.crf$edge.name.tab) <- c("edge.idx","n1.idx","n2.idx","n1.name","n2.name")
+
   # Node state space:
   if(length(num.states) == 1) {                        # If only 1 number is input to specify the number of states per node, assumes all nodes have that number of states.
     num.states.loc <- rep(num.states, new.crf$n.nodes) # Should be the same as new.crf$n.states
@@ -172,19 +183,23 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, state.
 
 
 #' @title       Input a parameter vector into parameter and potential matrices and vectors of crf object
-#' @description XX
+#' @description Input a parameter vector into parameter and potential matrices and vectors of crf object
 #'
-#' @param crf a crf object
+#' @param crf        a crf object
 #' @param param.samp a sample of parameter space or parameter vector
+#' @param nlpQ       include negative log potentials (energies) for good measure?
 #'
-#' @details Input a parameter vector into parameter and potential matrices of crf object
+#' @details Input a parameter vector into parameter and potential matrices of crf object.
+#' By default, negative log potentials (nlp, energies) unlabeled vectors and matrices are
+#' also tacked on. The user can sut this off with nlpQ=F. To include properly labeled
+#' potentials and energies for use with gRbase functions cf. make.gRbase.potentials.
 #'
 #' @return Nothing.
 #'
 #' @examples XXXX
 #'
 #' @export
-insert.params.and.pots <- function(crf, params.samp) {
+insert.params.and.pots <- function(crf, params.samp, nlpQ=T) {
 
   # Insert node potentials
   for(i in 1:crf$n.nodes){
@@ -218,6 +233,12 @@ insert.params.and.pots <- function(crf, params.samp) {
 
   # Insert parameters
   crf$par <- params.samp
+
+  if(nlpQ==T) { # Remember: These are just the parameters in another format
+    crf$node.nlp      <- -log(crf$node.pot)                       # Node energies
+    crf$node.nlp.list <- log_list(crf$node.pot.list, neglogQ = T) # Node energies as a list instead of a matrix
+    crf$edge.nlp      <- log_list(crf$edge.pot, neglogQ = T)      # Edge energies
+  }
 
   print("Parameters and potentials inserted into crf object.")
 
@@ -271,7 +292,7 @@ make.gRbase.potentials <- function(crf){
     node.levs                        <- list(crf$node.state.names[[i]])
     names(node.levs)                 <- crf$node.name.tab$name[i]
     gRbase.node.potentials[[i]]      <- tabNew(crf$node.name.tab$name[i], levels=node.levs, values=crf$node.pot.list[[i]])
-    gRbase.node.nlog.potentials[[i]] <- -log(gRbase.node.potentials[[i]])
+    gRbase.node.nlog.potentials[[i]] <- -log(gRbase.node.potentials[[i]]) # Node energies
   }
 
   # Decorate edge potentials:
@@ -284,7 +305,7 @@ make.gRbase.potentials <- function(crf){
                                              crf$node.state.names[[crf$edges[i,2]]])
     names(node.levs)                 <- c(e1,e2)
     gRbase.edge.potentials[[i]]      <- tabNew(c(e1,e2), levels=node.levs, values=as.numeric(crf$edge.pot[[i]]))
-    gRbase.edge.nlog.potentials[[i]] <- -log(gRbase.edge.potentials[[i]])
+    gRbase.edge.nlog.potentials[[i]] <- -log(gRbase.edge.potentials[[i]]) # Edge energies
   }
 
   potential.info        <- list(gRbase.node.potentials,

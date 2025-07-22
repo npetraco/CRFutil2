@@ -4,7 +4,11 @@
 \alias{distribution.from.potentials}
 \title{Compute the joint distribution from the node and edge potentials using gRbase functions}
 \usage{
-distribution.from.potentials(gRbase.node.potentials, gRbase.edge.potentials)
+distribution.from.potentials(
+  crf = NULL,
+  gRbase.node.potentials = NULL,
+  gRbase.edge.potentials = NULL
+)
 }
 \arguments{
 \item{XX}{The XX}

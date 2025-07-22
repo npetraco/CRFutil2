@@ -25,8 +25,8 @@ ener.func <- function(config) {
   engy <- config.energy(
       config    = config,
       edges.mat = tri$edges,
-      one.nlp   = tri$node.pot.list,
-      two.nlp   = tri$edge.pot, # use same order as edges!
+      one.nlp   = log_list(tri$node.pot.list, neglogQ = T),
+      two.nlp   = log_list(tri$edge.pot, neglogQ = T), # use same order as edges!
       ff        = ff1,
       nss.vec   = c(s1,s2,s3))
   return(engy)
@@ -36,8 +36,8 @@ ener.func.e <- function(config) {
   engy <-config.energy.e(
     config    = config,
     edges.mat = tri$edges,
-    one.nlp   = tri$node.pot.list,
-    two.nlp   = tri$edge.pot)
+    one.nlp   = log_list(tri$node.pot.list, neglogQ = T),
+    two.nlp   = log_list(tri$edge.pot, neglogQ = T)) # use same order as edges!
   return(engy)
 }
 # Convenience wrapper to compute energies of all configs
@@ -45,8 +45,8 @@ ener.func.eC <- function(config) {
   engy <-config_energy_e_C(
     config    = config,
     edges_mat = tri$edges,
-    one_nlp   = tri$node.pot.list,
-    two_nlp   = tri$edge.pot)
+    one_nlp   = log_list(tri$node.pot.list, neglogQ = T),
+    two_nlp   = log_list(tri$edge.pot, neglogQ = T)) # use same order as edges!
   return(engy)
 }
 

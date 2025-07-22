@@ -2,16 +2,19 @@
 % Please edit documentation in R/util.R
 \name{logsumexp2}
 \alias{logsumexp2}
-\title{Log sum exp trick from above. A less readable but more compact version:}
+\title{logsumexp trick}
 \usage{
 logsumexp2(logv)
 }
 \arguments{
-\item{XX}{The XX}
+\item{XX}{XX}
 }
 \value{
 The function will XX
 }
 \description{
+Log sum exp trick also. A less readable but more compact version:
+}
+\details{
 The function will XXXX
 }

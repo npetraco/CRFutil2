@@ -2,18 +2,18 @@
 % Please edit documentation in R/util.R
 \name{row.match}
 \alias{row.match}
-\title{Code from prodlim library to match a row in a matrix}
+\title{row.match in a matrix or table}
 \usage{
 row.match(x, table, nomatch = NA)
 }
 \arguments{
-\item{XX}{The XX}
+\item{XX}{}
 }
 \value{
 The function will XX
 }
 \description{
-XXXX
+Code from prodlim library to match a row in a matrix
 }
 \details{
 The function will XXXX

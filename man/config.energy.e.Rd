@@ -21,6 +21,6 @@ Compute total energy of a configuration. Uses efficient one and two body energy 
 Assumes node/edge energies are both entered as lists.
 }
 \details{
-Uses efficient one and two body enetgy functions. No need to pass in feature function.
+Uses efficient one and two body energy functions. No need to pass in feature function.
 Assumes node/edge energies are both entered as lists.
 }

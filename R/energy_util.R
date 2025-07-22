@@ -119,7 +119,7 @@ Etwo.e  <- function(yA, yB, wAB){
 #'
 #' @param config    a node configuration (configuration state) vector
 #' @param edges.mat matrix of connected node edges
-#' @param two.lgp   negative-log node potentials (one-body "energies"), entered as a list
+#' @param one.lgp   negative-log node potentials (one-body "energies"), entered as a list
 #' @param two.lgp   negative-log edge potentials (two-body "energies"), entered as a list
 #' @param ff        The feature function
 #' @param ...       Optional arguments for feature function.
@@ -162,7 +162,7 @@ config.energy <- function(config, edges.mat, one.nlp, two.nlp, ff, ...) {
 #' @param two.lgp   negative-log node potentials (one-body "energies"), entered as a list
 #' @param two.lgp   negative-log edge potentials (two-body "energies"), entered as a list
 #'
-#' @details Uses efficient one and two body enetgy functions. No need to pass in feature function.
+#' @details Uses efficient one and two body energy functions. No need to pass in feature function.
 #' Assumes node/edge energies are both entered as lists.
 #'
 #' @return The function will XX
@@ -193,4 +193,85 @@ config.energy.e <- function(config, edges.mat, one.nlp, two.nlp) {
   ener <- as.numeric(e.one + e.two)
 
   return(ener)
+}
+
+
+#' @title       Energy function wrapper
+#' @description Wrapper for energy function
+#'
+#' @param config a configuration
+#' @param crf    a crf object
+#' @param ff     the feature function
+#' @param ...    optional arguments for feature function.
+#'
+#' @details The function is a wrapper for config.energy. Easier input.
+#'
+#' @return Energy of the configuration.
+#'
+#' @examples XXXX
+#'
+#' @export
+energyf <- function(config, crf, ff, ...) {
+
+  #config.energy(config, edges.mat, one.nlp, two.nlp, ff, ...)
+  en.val <- config.energy(
+    config    = config,
+    edges.mat = crf$edges,
+    one.nlp   = crf$node.nlp.list,   # ?????????????????????????
+    two.nlp   = crf$edge.nlp,        # use same order as edges!
+    ff        = ff, ...)
+
+  return(en.val)
+
+}
+
+
+#' @title       Energy function wrapper
+#' @description Wrapper for energy function
+#'
+#' @param config a configuration
+#' @param crf    a crf object
+#'
+#' @details The function is a wrapper for config.energy.e. Easier input. **NOTE: assumes
+#' state names contained in the crf object are positive integers, i.e. 1, 2, 3, ..., etc.
+#'
+#' @return Energy of the configuration.
+#'
+#' @examples XXXX
+#'
+#' @export
+energye <- function(config, crf) {
+
+  en.val <-config.energy.e(
+    config    = config,
+    edges.mat = crf$edges,
+    one.nlp   = crf$node.nlp.list, # ?????????????????????????
+    two.nlp   = crf$edge.nlp)
+
+  return(en.val)
+}
+
+
+#' @title       C Energy function wrapper
+#' @description Wrapper for C version of the energy function
+#'
+#' @param config a configuration
+#' @param crf    a crf object
+#'
+#' @details The function is a wrapper for config_energy_e_C. Easier input. **NOTE: assumes
+#' state names contained in the crf object are positive integers, i.e. 1, 2, 3, ..., etc.
+#'
+#' @return Energy of the configuration.
+#'
+#' @examples XXXX
+#'
+#' @export
+energyeC <- function(config, crf) {
+  en.val <-config_energy_e_C(
+    config    = config,
+    edges_mat = crf$edges,
+    one_nlp   = crf$node.nlp.list, # ?????????????????????????
+    two_nlp   = crf$edge.nlp)
+
+  return(en.val)
 }

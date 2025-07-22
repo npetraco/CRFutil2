@@ -15,6 +15,8 @@ config.energy(config, edges.mat, one.nlp, two.nlp, ff, ...)
 
 \item{...}{Optional arguments for feature function.}
 
+\item{one.lgp}{negative-log node potentials (one-body "energies"), entered as a list}
+
 \item{two.lgp}{negative-log edge potentials (two-body "energies"), entered as a list}
 }
 \value{

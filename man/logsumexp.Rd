@@ -2,18 +2,18 @@
 % Please edit documentation in R/util.R
 \name{logsumexp}
 \alias{logsumexp}
-\title{Log sum exp trick. Code ported from Brendon Brewer's DNest code:}
+\title{logsumexp trick}
 \usage{
 logsumexp(logv)
 }
 \arguments{
-\item{XX}{The XX}
+\item{XX}{XX}
 }
 \value{
 The function will XX
 }
 \description{
-Handy for calculating Z from a vector of log potentials.
+Log sum exp trick. Code ported from Brendon Brewer's DNest code
 }
 \details{
 The function will XXXX
