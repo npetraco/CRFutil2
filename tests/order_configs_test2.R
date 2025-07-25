@@ -20,19 +20,22 @@ insert.params.and.pots(star, params.samp = star.rthetas)
 dump.crf(star)
 
 # Decorate  potentials and energies with gRbase annotations to use later:
-star$gR <- make.gRbase.potentials(crf=star)
-
-dist.pot.info <- distribution.from.potentials(star)
-dist.pot.info
+#star$gR <- make.gRbase.potentials(crf=star)
 
 
 # Enumerate all the state configurations
 config.mat <- expand.grid(c(s1,s2),c(s1,s2),c(s1,s2),c(s1,s2),c(s1,s2))
 colnames(config.mat) <- c("A","B","C","D","E")
-# what is a good canonical row order??
-config.mat2 <- order.configs(config.mat, star)$config.mat
 
+# Mix up columns
+config.mat <- config.mat[,c(2,5,3,1,4)]
+config.mat
 
-junk <- order.configs(config.mat, star, order.nodesQ = T)
-junk$node.rearr.idxs
-junk$config.rearr.idxs
+j1 <- colnames(config.mat)
+j2 <- c("A","B","C","D","E")
+j1
+j1[n2i(name.vec = j2, ordered.names = j1)] # n2i works
+
+configs.n2i(configs.mat = config.mat, crf = star, node.col.lblQ = T)  # configs.n2i works
+order.configs(config.mat, star, order.nodesQ=T) # order.configs works
+

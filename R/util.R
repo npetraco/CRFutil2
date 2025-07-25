@@ -217,7 +217,7 @@ order.configs <- function(configs.mat, crf, order.nodesQ=F){
   if(order.nodesQ==T) {
 
     # initial node name column headers
-    nnch <- colnames(configs.mat)[1:(ncol(configs.mat)-1)]
+    nnch <- colnames(configs.mat) #[1:(ncol(configs.mat)-1)]
 
     # Rearrange column (node) indices to be in canonical node order contained in the crf object, i.e. the order in crf$node.name.tab:
     col.rearr.idxs  <- sapply(1:crf$n.nodes, function(xx){n2i(name.vec = crf$node.name.tab$name[xx], ordered.names = nnch)})

@@ -62,17 +62,25 @@ distribution.from.potentials <- function(crf=NULL, gRbase.node.potentials=NULL, 
 
   # Reorder columns in node canonical order contained in crf object if it is given
   if(!is.null(crf)){
-    # node name column headers
-    nnch <- colnames(state.probs)[1:(ncol(state.probs)-1)]
 
-    # Rearrange column indices to be in canonical node order contained in the crf object, i.e. the order in crf$node.name.tab:
-    rearr.idxs      <- sapply(1:num.nodes, function(xx){n2i(name.vec = crf$node.name.tab$name[xx], ordered.names = nnch)})
-    log.state.probs <- log.state.probs[,c(rearr.idxs, num.nodes+1)]
-    state.probs     <- state.probs[,c(rearr.idxs, num.nodes+1)]
+    # Order nodes (columns) and configs (rows) in case they aren't:
+    csm           <- state.probs[,1:num.nodes]
+    csm.ord.info <- order.configs(configs.mat = csm, crf = crf, order.nodesQ=T)
 
-    # Label up columns
-    colnames(log.state.probs) <- c(nnch[rearr.idxs], "log.prob")
-    colnames(state.probs)     <- c(nnch[rearr.idxs], "prob")
+    log.state.probs <- log.state.probs[csm.ord.info$config.rearr.idxs, c(csm.ord.info$node.rearr.idxs, num.nodes+1)]
+    state.probs     <- state.probs[csm.ord.info$config.rearr.idxs, c(csm.ord.info$node.rearr.idxs, num.nodes+1)]
+
+    # print(num.nodes)
+    # print(colnames(log.state.probs))
+    # print(ncol(log.state.probs))
+    # print("")
+    # print(colnames(state.probs))
+    # print(ncol(state.probs))
+
+    colnames(log.state.probs)[num.nodes+1] <- "log.prob"
+    colnames(state.probs)[num.nodes+1]     <- "prob"
+
+    #print("HERE!!")
   }
 
   dist.info <- list(state.probs, log.state.probs, logZZ)
