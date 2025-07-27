@@ -46,44 +46,36 @@ distribution.from.potentials <- function(crf=NULL, gRbase.node.potentials=NULL, 
   }
 
   # Direct normalization:
-  #state.probs <- tableMult(prod.edge.pots, prod.node.pots)
-  #ZZ <- sum(state.probs)
-  #state.probs <- state.probs/ZZ
+  #config.probs <- tableMult(prod.edge.pots, prod.node.pots)
+  #ZZ <- sum(config.probs)
+  #config.probs <- config.probs/ZZ
 
   # Assume the prod pots can get a little rowdy. Normalize on log scale instead:
-  log.state.prod.pots <- log(tableMult(prod.edge.pots, prod.node.pots)) # Take the log so we can use the log-sum-exp trick
-  logZZ               <- logsumexp2(log.state.prod.pots)
-  log.state.probs     <- log.state.prod.pots - logZZ                    # Comes out in contingency table form
-  log.state.probs     <- as.data.frame(as.table(log.state.probs))       # Flatten out into one matrix
+  log.config.prod.pots <- log(tableMult(prod.edge.pots, prod.node.pots)) # Take the log so we can use the log-sum-exp trick
+  logZZ               <- logsumexp2(log.config.prod.pots)
+  log.config.probs     <- log.config.prod.pots - logZZ                    # Comes out in contingency table form
+  log.config.probs     <- as.data.frame(as.table(log.config.probs))       # Flatten out into one matrix
 
   # Un-log from logsumexp trick
-  state.probs                     <- log.state.probs
-  state.probs[,ncol(state.probs)] <- exp(state.probs[,ncol(state.probs)])
+  config.probs                     <- log.config.probs
+  config.probs[,ncol(config.probs)] <- exp(config.probs[,ncol(config.probs)])
 
   # Reorder columns in node canonical order contained in crf object if it is given
   if(!is.null(crf)){
 
     # Order nodes (columns) and configs (rows) in case they aren't:
-    csm           <- state.probs[,1:num.nodes]
+    csm           <- config.probs[,1:num.nodes]
     csm.ord.info <- order.configs(configs.mat = csm, crf = crf, order.nodesQ=T)
 
-    log.state.probs <- log.state.probs[csm.ord.info$config.rearr.idxs, c(csm.ord.info$node.rearr.idxs, num.nodes+1)]
-    state.probs     <- state.probs[csm.ord.info$config.rearr.idxs, c(csm.ord.info$node.rearr.idxs, num.nodes+1)]
+    log.config.probs <- log.config.probs[csm.ord.info$config.rearr.idxs, c(csm.ord.info$node.rearr.idxs, num.nodes+1)]
+    config.probs     <- config.probs[csm.ord.info$config.rearr.idxs, c(csm.ord.info$node.rearr.idxs, num.nodes+1)]
 
-    # print(num.nodes)
-    # print(colnames(log.state.probs))
-    # print(ncol(log.state.probs))
-    # print("")
-    # print(colnames(state.probs))
-    # print(ncol(state.probs))
+    colnames(log.config.probs)[num.nodes+1] <- "log.prob"
+    colnames(config.probs)[num.nodes+1]     <- "prob"
 
-    colnames(log.state.probs)[num.nodes+1] <- "log.prob"
-    colnames(state.probs)[num.nodes+1]     <- "prob"
-
-    #print("HERE!!")
   }
 
-  dist.info <- list(state.probs, log.state.probs, logZZ)
+  dist.info <- list(config.probs, log.config.probs, logZZ)
   names(dist.info) <- c("config.probs", "log.config.probs", "logZ")
   return(dist.info)
 
@@ -101,15 +93,29 @@ distribution.from.potentials <- function(crf=NULL, gRbase.node.potentials=NULL, 
 #'
 #'
 #' @export
-# distribution.from.energies <- function(state.space, edges.mat, node.energies, edge.energies){
-#
-#   num.states      <- nrow(state.space)
-#   state.energies  <- sapply(1:num.states, function(xx){config.energy.e(state.space[xx,], edges.mat, node.energies, edge.energies)})
-#   logZZ           <- logsumexp2(-state.energies)
-#   log.state.probs <- state.energies-logZZ
-#
-#   dist.info <- list(exp(-log.state.probs), logZZ)
-#   names(dist.info) <- c("state.probs", "logZ")
-#   return(dist.info)
-#
-# }
+distribution.from.energies <- function(crf=NULL, node.energies=NULL, edge.energies=NULL, use.gRQ=F){
+
+  # Enumerate all the state configurations and put in canonical order.
+  # **CAUTION: This can get huge. Print a message or a warning:
+  all.config          <- expand.grid(crf$node.state.names)
+
+  # Put configs in canonical order
+  all.config.ord.info <- order.configs(all.config, crf, order.nodesQ=T)
+  all.config          <- all.config.ord.info$config.mat
+
+  # Transform to configuration indices needed by efficient energy functions
+  all.config.sidxs <- configs.n2i(all.config, crf)
+
+  # Compute energies of each configuration:
+  config.energies <- sapply(1:nrow(all.config.sidxs), function(xx){energye(all.config.sidxs[xx,], crf)})
+  logZZ          <- logsumexp2(-config.energies)
+  log.prob       <- -(config.energies+logZZ)
+  prob           <- exp(log.prob)
+
+  config.probs     <- data.frame(all.config, prob)       # Tack on the configurations
+  log.config.probs <- data.frame(all.config, log.prob)   # Tack on the configurations
+  dist.info        <- list(config.probs, log.config.probs, logZZ)
+  names(dist.info) <- c("config.probs", "log.config.probs", "logZ")
+
+  return(dist.info)
+}

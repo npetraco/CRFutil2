@@ -24,5 +24,5 @@ dump.crf(star)
 # Decorate  potentials and energies with gRbase annotations to use later:
 star$gR <- make.gRbase.potentials(crf=star)
 
-dist.pot.info <- distribution.from.potentials(star)
+dist.pot.infox <- distribution.from.potentials(star)
 dist.pot.info

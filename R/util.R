@@ -214,10 +214,10 @@ order.configs <- function(configs.mat, crf, order.nodesQ=F){
   configs.mat.ord <- configs.mat
 
   col.rearr.idxs <- NULL
-  if(order.nodesQ==T) {
+  if(order.nodesQ==T) { # Order nodes (columns) first if requested.
 
     # initial node name column headers
-    nnch <- colnames(configs.mat) #[1:(ncol(configs.mat)-1)]
+    nnch <- colnames(configs.mat)
 
     # Rearrange column (node) indices to be in canonical node order contained in the crf object, i.e. the order in crf$node.name.tab:
     col.rearr.idxs  <- sapply(1:crf$n.nodes, function(xx){n2i(name.vec = crf$node.name.tab$name[xx], ordered.names = nnch)})
