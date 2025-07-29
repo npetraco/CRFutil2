@@ -5,8 +5,8 @@ grphf <- ~A:B+A:C+A:D+A:E+B:C+B:D+B:E+C:D+D:E
 adj   <- ug(grphf, result = "matrix")
 
 # Define node state space and configuration space:
-s1 <- "up"; s2 <- "dn"
-#s1 <- 1; s2 <- 2
+#s1 <- "up"; s2 <- "dn"
+s1 <- 1; s2 <- 2
 
 star  <- make.empty.field(graph.eq             = grphf,
                           num.states           = 2,
@@ -23,6 +23,24 @@ dump.crf(star)
 
 # Decorate  potentials and energies with gRbase annotations to use later:
 star$gR <- make.gRbase.potentials(crf=star)
+
+# Configuration energies to check against those produced by CRFutil:
+config.mat <- expand.grid(c(s1,s2),c(s1,s2),c(s1,s2),c(s1,s2),c(s1,s2))
+colnames(config.mat) <- c("A","B","C","D","E")
+echk <- t(t(sapply(1:nrow(config.mat), function(xx){energye(config = config.mat[xx,], crf = star)})))
+
+Zchk <- sum(exp(-echk))
+pchk <- 1/Zchk*exp(-echk)
+pchk # NOTE: For a given set of parameters, these will be different than in CRFutil because there we defined energies (ie the parameters) as log-potentials instead of negative log-potentials
+
+Zchk2 <- sum(exp(echk))
+pchk2 <- 1/Zchk2*exp(echk)
+pchk2 # NOTE: These should match what CRFutil spits out with distribution.from.energies()
+
+
+config.mat2 <- order.configs(config.mat, crf = star)
+config.mat2 <- config.mat2$config.mat
+t(t(sapply(1:nrow(config.mat2), function(xx){energye(config = config.mat2[xx,], crf = star)})))
 
 je <- distribution.from.energies(star)
 jp <- distribution.from.potentials(star)
@@ -54,3 +72,4 @@ je$config.probs$prob - jp$config.probs$prob
 #2.76635536  1.68727702  0.74564743  0.10106961  3.95830222
 #0.11310271  0.05856481  0.51332223  0.58953694 15.18482540  3.85496798  4.66390136  0.45555565  1.60346354
 
+t(t(order.configs(expand.grid(star$node.state.names), star)$config.rearr.idxs))
