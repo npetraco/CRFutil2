@@ -22,5 +22,5 @@ Convert name(s) to index(ies) for a matrix of configurations
 \details{
 Function converts node state names in configurations to node state indices.
 The biggest reason to do this is that the more efficient energy functions can only use
-node state indices.
+node state indices. The inverse of this function is dress.sample().
 }

@@ -4,7 +4,14 @@
 \alias{sample.crf}
 \title{Simulate a sample}
 \usage{
-sample.crf(crf, size, crf.sample.method, dress.sampleQ = F, ...)
+sample.crf(
+  crf,
+  size,
+  crf.sample.method,
+  dress.sampleQ = T,
+  data.frameQ = T,
+  ...
+)
 }
 \arguments{
 \item{crf}{a crf object}
@@ -14,6 +21,8 @@ sample.crf(crf, size, crf.sample.method, dress.sampleQ = F, ...)
 \item{crf.sample.method}{sampling method in CRF: sample.exact, .junction, .conditional, .cutset}
 
 \item{dress.sampleQ}{use the default state names from the CRF sampler or dress up with the state names stipulated in the crf object?}
+
+\item{data.frameQ}{whether or not to return sample as a data frame}
 
 \item{...}{other arguments needed for CRF sampling methods}
 }

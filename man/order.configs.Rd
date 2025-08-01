@@ -4,12 +4,14 @@
 \alias{order.configs}
 \title{Order configurations given node state indices}
 \usage{
-order.configs(configs.mat, crf, order.nodesQ = F)
+order.configs(configs.mat, crf, st.idxQ = T, order.nodesQ = T)
 }
 \arguments{
-\item{configs.mat}{A matrix of configurations}
+\item{configs.mat}{A matrix of configurations. See details section about state index names!}
 
 \item{crf}{A crf object}
+
+\item{st.idxQ}{Whether or not to change state names in configurations to state indices.}
 
 \item{order.nodesQ}{Whether or not to order the columns (i.e. nodes) in the same order as is found in the crf object.}
 }
@@ -22,11 +24,16 @@ Give a canonical order to a matrix of configurations via the node order (columns
 }
 \details{
 Orders the configurations column by column in node state order using the R base
-function order. Given the states of each node are assigned indices in the crf object, the
+function order. NOTE: This function requires node states to be in index form! If they are not,
+set st.idxQ=T (By the way, that's the default.). This choice has been left as a manual switch
+and not made an automated check to allow for the possibility of numeric state labels that are
+NOT in order. Given the states of each node are assigned indices in the crf object, the
 function treats each configuration an integer vector and orders them node-wise
 (i.e. column-wise). This is handy when comparing distributions with the same configurations and
-nodes. By default it's assumed the configurations are sent in already in the column order you
-want (order.nodesQ=F). With order.nodesQ=T the columns will be first ordered according to whats
-in crf$node.name.tab and then the configurations (rows) will be ordered. If order.nodesQ=T the
-column rearrangment indices will also be returned.
+nodes. With order.nodesQ=T (the default) the columns will be first ordered according to whats
+in crf$node.name.tab and then the configurations (rows) will be ordered. If order.nodesQ=F the
+column rearrangement indices be returned as NULL. If there are no node names (i.e. no column)
+labels and the states are state indices (i.e. if the configurations are just output from one of
+the CRF sampling functions), set st.idxQ = F and order.nodesQ = F, otherwise an error will be
+thrown.
 }

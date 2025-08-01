@@ -4,7 +4,7 @@
 \alias{plot.configuration.sample}
 \title{Plot configuration sample}
 \usage{
-\method{plot}{configuration.sample}(samples, num.top.configs = 3)
+\method{plot}{configuration.sample}(samples, crf = NULL, num.top.configs = 3)
 }
 \arguments{
 \item{samples}{a crf object}
