@@ -270,55 +270,6 @@ dump.crf <- function(crf){
 }
 
 
-#' @title  Decorate initalized potentials in crf object to be compatible with gRbase
-#' @description XX
-#'
-#' @param crf a crf object
-#'
-#' @details Decorates the node and edge potentials with naming conventions useful
-#' with or required by gRbase functionality.
-#'
-#' @return A list with the decorated potentials and their corresponding energies.
-#'
-#' @examples XXXX
-#'
-#' @export
-make.gRbase.potentials <- function(crf){
-
-  # Decorate node potentials:
-  gRbase.node.potentials      <- rep(list(NULL),crf$n.nodes) #node Psi's
-  gRbase.node.nlog.potentials <- rep(list(NULL),crf$n.nodes) #node psi's (one-body energies)
-  for(i in 1:crf$n.nodes){
-    node.levs                        <- list(crf$node.state.names[[i]])
-    names(node.levs)                 <- crf$node.name.tab$name[i]
-    gRbase.node.potentials[[i]]      <- tabNew(crf$node.name.tab$name[i], levels=node.levs, values=crf$node.pot.list[[i]])
-    gRbase.node.nlog.potentials[[i]] <- -log(gRbase.node.potentials[[i]]) # Node energies
-  }
-
-  # Decorate edge potentials:
-  gRbase.edge.potentials      <- rep(list(NULL),crf$n.edges) # edge Psi's
-  gRbase.edge.nlog.potentials <- rep(list(NULL),crf$n.edges) # edge psi's (two-body energies)
-  for(i in 1:crf$n.edges){
-    e1                               <- crf$node.name.tab$name[crf$edges[i,1]]
-    e2                               <- crf$node.name.tab$name[crf$edges[i,2]]
-    node.levs                        <- list(crf$node.state.names[[crf$edges[i,1]]],
-                                             crf$node.state.names[[crf$edges[i,2]]])
-    names(node.levs)                 <- c(e1,e2)
-    gRbase.edge.potentials[[i]]      <- tabNew(c(e1,e2), levels=node.levs, values=as.numeric(crf$edge.pot[[i]]))
-    gRbase.edge.nlog.potentials[[i]] <- -log(gRbase.edge.potentials[[i]]) # Edge energies
-  }
-
-  potential.info        <- list(gRbase.node.potentials,
-                                gRbase.edge.potentials,
-                                gRbase.node.nlog.potentials,
-                                gRbase.edge.nlog.potentials)
-  names(potential.info) <- c("node.potentials","edge.potentials","node.energies","edge.energies")
-
-  return(potential.info)
-
-}
-
-
 #---------------------------------------------------------------------------
 # Internal auxiliary stuff to help out above for \em{slightly} improved readability
 #---------------------------------------------------------------------------
