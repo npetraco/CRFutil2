@@ -100,7 +100,6 @@ make.empty.field2_sb <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, st
       stop("node.par and edge.par need to be defined for custom parameterization!")
     }
 
-    #XXXXXXXXXXXXXXX CUSTOM NODE PARAMETERIZATION HERE
     for(i in 1:new.crf$n.nodes){
       new.crf$node.par[i,,1] <- node.par[i,,1]
 
@@ -115,7 +114,7 @@ make.empty.field2_sb <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, st
     }
 
   } else {
-    stop("No other node parameterization types are availible at this point.")
+    stop("parameterization.typ must be standard, flexible, general and custom. No other node parameterization types are availible at this point.")
   }
 
 
@@ -147,40 +146,40 @@ make.empty.field2_sb <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, st
   } else if(parameterization.typ=="custom"){
 
     #XXXXXXXXXXXXXXX CUSTOM EDGE PARAMETERIZATION HERE
-    print("Edge custom parameterization here!")
+    #print("Edge custom parameterization here!")
+    for(i in 1:new.crf$n.edges){
+      new.crf$edge.par[[i]][,,1] <- edge.par[[i]]
+    }
 
   } else {
     stop("parameterization.typ must be standard, flexible, general and custom. No other node parameterization types are availible at this point.")
   }
 
+  # Gather all unique parameter indices. Drop any 0s as they are just placeholders:
+  par.idxs <- sort(unique(unlist(c(new.crf$node.par.list, new.crf$edge.par))))[-1]
+  num.par  <- max(par.idxs)
 
-  # XXXXX PUT ISING MODELS HERE XXXXXXX
+  par.idxs.contiguousQ <- ((1:num.par) == par.idxs) # Check that the parameter indices are contiguous and that we didn't skip any
+  if( sum(par.idxs.contiguousQ) != num.par ){
+    param.idx.err.mat           <- cbind(1:num.par, par.idxs)
+    colnames(param.idx.err.mat) <- c("number", "parameter index")
+    print(param.idx.err.mat)
+    stop("Something isn't right. Parameter indices are not contiguous.......")
+  }
+  new.crf$num.par       <- num.par
+  new.crf$node.par.idxs <- sort(unique(unlist( new.crf$node.par.list )))[-1]
+  new.crf$edge.par.idxs <- sort(unique(unlist( new.crf$edge.par )))[-1]
 
 
-  # # Gather all unique parameter indices. Drop any 0s as they are just placeholders:
-  # par.idxs <- sort(unique(unlist(c(new.crf$node.par.list, new.crf$edge.par))))[-1]
-  # num.par  <- max(par.idxs)
-  #
-  # par.idxs.contiguousQ <- ((1:num.par) == par.idxs) # Check that the parameter indices are contiguous and that we didn't skip any
-  # if( sum(par.idxs.contiguousQ) != num.par ){
-  #   param.idx.err.mat           <- cbind(1:num.par, par.idxs)
-  #   colnames(param.idx.err.mat) <- c("number", "parameter index")
-  #   stop("Something isn't right. Parameter indices are not contiguous.......")
-  # }
-  # new.crf$num.par       <- num.par
-  # new.crf$node.par.idxs <- sort(unique(unlist( new.crf$node.par.list )))[-1]
-  # new.crf$edge.par.idxs <- sort(unique(unlist( new.crf$edge.par )))[-1]
-  #
-  #
-  # # Plot graph
-  # if(plotQ==TRUE){
-  #   new.crf.gp <- graph_from_adjacency_matrix(new.crf$adj.mat, mode = "undirected")
-  #   if(!is.null(dev.list())){
-  #     dev.off()
-  #   }
-  #   iplot(new.crf.gp)
-  # }
-  #
+  # Plot graph
+  if(plotQ==TRUE){
+    new.crf.gp <- graph_from_adjacency_matrix(new.crf$adj.mat, mode = "undirected")
+    if(!is.null(dev.list())){
+      dev.off()
+    }
+    iplot(new.crf.gp)
+  }
+
   return(new.crf)
 
 }

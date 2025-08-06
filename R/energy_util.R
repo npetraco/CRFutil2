@@ -245,7 +245,7 @@ energye <- function(config, crf) {
   en.val <-config.energy.e(
     config    = config,
     edges.mat = crf$edges,
-    one.nlp   = crf$node.nlp.list, # ?????????????????????????
+    one.nlp   = crf$node.nlp.list,
     two.nlp   = crf$edge.nlp)
 
   return(en.val)
