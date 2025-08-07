@@ -252,6 +252,29 @@ energye <- function(config, crf) {
 }
 
 
+#' @title       Energy function wrapper
+#' @description Wrapper for energy function which uses phi vector for a config to compute energy
+#'
+#' @param config a configuration
+#' @param crf    a crf object
+#'
+#' @details Compute energy using phi vector for configuration: E({\bf X}) = {\boldsymbol \theta}^{\dagger} {\boldsymbol \phi}({\bf X}) **NOTE: assumes
+#' state names contained in the crf object are positive integers, i.e. 1, 2, 3, ..., etc.
+#'
+#' @return Energy of the configuration.
+#'
+#' @examples XXXX
+#'
+#' @export
+energyphe <- function(config, crf) {
+  #phi <- phi.features.e(config=config, crf=crf)
+  #en  <- sum(phi * crf$par)
+  en <- sum(phi.features.e(config=config, crf=crf) * crf$par)
+
+  return(en)
+}
+
+
 #' @title       C Energy function wrapper
 #' @description Wrapper for C version of the energy function
 #'

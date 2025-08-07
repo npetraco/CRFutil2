@@ -11,7 +11,7 @@ order.configs(configs.mat, crf, st.idxQ = T, order.nodesQ = T)
 
 \item{crf}{A crf object}
 
-\item{st.idxQ}{Whether or not to change state names in configurations to state indices.}
+\item{st.idxQ}{Whether or not to change state names in configurations to state indices. Set to T if sending in configs NOT in node state indices.}
 
 \item{order.nodesQ}{Whether or not to order the columns (i.e. nodes) in the same order as is found in the crf object.}
 }

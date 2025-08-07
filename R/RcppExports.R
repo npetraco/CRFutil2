@@ -253,6 +253,13 @@ ff13_C <- function(ns, nss_dim) {
     .Call(`_CRFutil2_ff13_C`, ns, nss_dim)
 }
 
+#' @title        Efficient cXXXX
+NULL
+
+phi_features_e_C <- function(config, edges_mat, num_params, node_par, edge_par) {
+    .Call(`_CRFutil2_phi_features_e_C`, config, edges_mat, num_params, node_par, edge_par)
+}
+
 #' @title        XX function
 #' @description XX
 #'

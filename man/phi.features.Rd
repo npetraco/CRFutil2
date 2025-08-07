@@ -4,7 +4,7 @@
 \alias{phi.features}
 \title{Compute features phi}
 \usage{
-phi.features(config, edges.mat, node.par, edge.par, ff)
+phi.features(config, edges.mat, node.par, edge.par, ff, ...)
 }
 \arguments{
 \item{config}{configuration}
@@ -16,6 +16,8 @@ phi.features(config, edges.mat, node.par, edge.par, ff)
 \item{edge.par}{list of edge parameter index matries for a graph}
 
 \item{ff}{feature function}
+
+\item{...}{optional arguments for feature function}
 }
 \value{
 a phi vector

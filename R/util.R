@@ -242,7 +242,7 @@ dress.sample <- function(crf, samples) {
 #'
 #' @param configs.mat   A matrix of configurations. See details section about state index names!
 #' @param crf           A crf object
-#' @param st.idxQ       Whether or not to change state names in configurations to state indices.
+#' @param st.idxQ       Whether or not to change state names in configurations to state indices. Set to T if sending in configs NOT in node state indices.
 #' @param order.nodesQ  Whether or not to order the columns (i.e. nodes) in the same order as is found in the crf object.
 #'
 #' @details Orders the configurations column by column in node state order using the R base
@@ -271,6 +271,7 @@ order.configs <- function(configs.mat, crf, st.idxQ=T, order.nodesQ=T){
   # **NOTE: this is not automated to keep code bloat down. Maybe automate in the future however. Cf. details section.
   if(st.idxQ == T){
     configs.mat.ord <- data.frame(configs.n2i(configs.mat.ord, crf = crf, node.col.lblQ = T))
+    #print(configs.mat.ord)
   }
 
   col.rearr.idxs <- NULL
@@ -278,12 +279,13 @@ order.configs <- function(configs.mat, crf, st.idxQ=T, order.nodesQ=T){
   if(order.nodesQ==T) {
 
     # initial node name column headers
-    nnch <- colnames(configs.mat)
+    nnch <- colnames(configs.mat.ord)
 
     # Rearrange column (node) indices to be in canonical node order contained in the crf object, i.e. the order in crf$node.name.tab:
     col.rearr.idxs  <- sapply(1:crf$n.nodes, function(xx){n2i(name.vec = crf$node.name.tab$name[xx], ordered.names = nnch)})
     configs.mat.ord <- configs.mat.ord[,col.rearr.idxs]
   }
+  #print(configs.mat.ord)
 
   # Order configurations: **NOTE states of configurations must be index form for this to work right!
   row.rearr.idxs  <- do.call(order, configs.mat.ord[,1:ncol(configs.mat.ord)])

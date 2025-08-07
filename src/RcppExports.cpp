@@ -179,6 +179,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// phi_features_e_C
+IntegerVector phi_features_e_C(IntegerVector config, IntegerMatrix edges_mat, int num_params, arma::icube node_par, List edge_par);
+RcppExport SEXP _CRFutil2_phi_features_e_C(SEXP configSEXP, SEXP edges_matSEXP, SEXP num_paramsSEXP, SEXP node_parSEXP, SEXP edge_parSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type config(configSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type edges_mat(edges_matSEXP);
+    Rcpp::traits::input_parameter< int >::type num_params(num_paramsSEXP);
+    Rcpp::traits::input_parameter< arma::icube >::type node_par(node_parSEXP);
+    Rcpp::traits::input_parameter< List >::type edge_par(edge_parSEXP);
+    rcpp_result_gen = Rcpp::wrap(phi_features_e_C(config, edges_mat, num_params, node_par, edge_par));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_prototypef
 List rcpp_prototypef();
 RcppExport SEXP _CRFutil2_rcpp_prototypef() {
@@ -240,6 +255,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_CRFutil2_ff11_C", (DL_FUNC) &_CRFutil2_ff11_C, 2},
     {"_CRFutil2_ff12_C", (DL_FUNC) &_CRFutil2_ff12_C, 2},
     {"_CRFutil2_ff13_C", (DL_FUNC) &_CRFutil2_ff13_C, 2},
+    {"_CRFutil2_phi_features_e_C", (DL_FUNC) &_CRFutil2_phi_features_e_C, 5},
     {"_CRFutil2_rcpp_prototypef", (DL_FUNC) &_CRFutil2_rcpp_prototypef, 0},
     {"_CRFutil2_compare_element", (DL_FUNC) &_CRFutil2_compare_element, 2},
     {"_CRFutil2_inQ", (DL_FUNC) &_CRFutil2_inQ, 2},
