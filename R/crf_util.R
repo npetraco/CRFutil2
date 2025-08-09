@@ -348,6 +348,7 @@ make.empty.field <- function(graph.eq=NULL, adj.mat=NULL, num.states = 2, state.
     stop("Something isn't right. Parameter indices are not contiguous.......")
   }
   new.crf$num.par       <- num.par
+  new.crf$n.par         <- num.par # Legacy include, because some CRF functions look for this
   new.crf$node.par.idxs <- sort(unique(unlist( new.crf$node.par.list )))[-1]
   new.crf$edge.par.idxs <- sort(unique(unlist( new.crf$edge.par )))[-1]
 
@@ -418,13 +419,14 @@ insert.params.and.pots <- function(crf, params.samp, nlpQ=T) {
   # Insert parameters
   crf$par <- params.samp
 
+  # Insert negative log potentials (i.e. energies) if requested (default).
   if(nlpQ==T) { # Remember: These are just the parameters in another format
     crf$node.nlp      <- -log(crf$node.pot)                       # Node energies
     crf$node.nlp.list <- log_list(crf$node.pot.list, neglogQ = T) # Node energies as a list instead of a matrix
     crf$edge.nlp      <- log_list(crf$edge.pot, neglogQ = T)      # Edge energies
   }
 
-  print("Parameters and potentials inserted into crf object.")
+  print(paste0(crf$n.par, " parameters and ", nrow(crf$node.pot) + length(crf$edge.pot), " potentials inserted into crf object."))
 
 }
 

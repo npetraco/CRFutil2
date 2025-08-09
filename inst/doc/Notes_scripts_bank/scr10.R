@@ -25,7 +25,7 @@ dist.en.info <- distribution.from.energies(star)
 
 # NEW: As a check compute Probs of all configurations and logZ from potentials as well:
 # First decorate  potentials and energies with gRbase annotations to use with gRbase functionality:
-star$gR <- make.gRbase.potentials(crf=star)
+make.gRbase.potentials(crf=star)
 dist.pot.info <- distribution.from.potentials(star)
 
 # Check that we get the same configuration probs:

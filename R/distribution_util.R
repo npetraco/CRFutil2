@@ -52,7 +52,7 @@ distribution.from.potentials <- function(crf=NULL, gRbase.node.potentials=NULL, 
 
   # Assume the prod pots can get a little rowdy. Normalize on log scale instead:
   log.config.prod.pots <- log(tableMult(prod.edge.pots, prod.node.pots)) # Take the log so we can use the log-sum-exp trick
-  logZZ               <- logsumexp2(log.config.prod.pots)
+  logZZ                <- logsumexp2(log.config.prod.pots)
   log.config.probs     <- log.config.prod.pots - logZZ                    # Comes out in contingency table form
   log.config.probs     <- as.data.frame(as.table(log.config.probs))       # Flatten out into one matrix
 
@@ -64,7 +64,7 @@ distribution.from.potentials <- function(crf=NULL, gRbase.node.potentials=NULL, 
   if(!is.null(crf)){
 
     # Order nodes (columns) and configs (rows) in case they aren't:
-    csm           <- config.probs[,1:num.nodes]
+    csm           <- config.probs[,1:num.nodes] # config state matrix
     csm.ord.info <- order.configs(configs.mat = csm, crf = crf, order.nodesQ=T)
 
     log.config.probs <- log.config.probs[csm.ord.info$config.rearr.idxs, c(csm.ord.info$node.rearr.idxs, num.nodes+1)]

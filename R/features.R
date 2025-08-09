@@ -114,6 +114,26 @@ phi.features.e <- function(config, crf) {
 }
 
 
+#' @title       Wrapper for Rcpp version of phi features
+#' @description Wrapper for Rcpp version of phi features
+#'
+#' @param config a configuration
+#' @param crf    a crf object
+#'
+#' @details Wrapper for Rcpp version of phi features. This version assumes state of the configuration are
+#' node state indices.
+#'
+#' @return a phi vector
+#'
+#' @examples XXXX
+#'
+#' @export
+phi.features.e.C <- function(config, crf) {
+  phi.vec <- phi_features_e_C(config, crf$edges, crf$n.par, crf$node.par, crf$edge.par)
+  return(phi.vec)
+}
+
+
 #' @title       Compute model matrix for a set of configurations
 #' @description Compute model matrix for a set of configurations
 #'
@@ -130,7 +150,6 @@ phi.features.e <- function(config, crf) {
 compute.model.matrix.e <- function(configs.mat, crf) {
 
   M.mat <- t(sapply(1:nrow(configs.mat), function(xx){phi.features.e(configs.mat[xx,], crf = crf)}))
-  #e.vec <- M.mat %*% crf$par
 
   return(M.mat)
 
