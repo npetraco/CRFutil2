@@ -6,5 +6,6 @@
 .DS_Store
 src/*.o
 src/*.so
+inst/doc/Notes/~$Notes_rev1.pptx
 R_OLD
 src_OLD
